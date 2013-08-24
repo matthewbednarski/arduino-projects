@@ -1,36 +1,36 @@
 
-
-PORT			:= /dev/ttyUSB0
-F_CPU			:= 8000000L
-UPLOAD_RATE		:= 57600
-PINS_VARIANT		:= standard
-AVR_PART_NO		:= ATMEGA328P
-AVRDUDE_PROGRAMMER	:= arduino
-MCU			:= atmega328p
-
-
 TARGET			:= $(notdir $(CURDIR))
 INSTALL_DIR		:= /usr/lib/arduino
 AVR_SRCS_ROOT		:= /usr/avr/include/arduino
 
 ARDUINO_VERS		:=105
 
+#ARDUINO_OBJ_DIR		:= obj/core
+#LIB_OBJ_DIR		:= obj/lib
+#OBJ_DIR			:= obj
+#BIN_DIR			:= bin
+ARDUINO_OBJ_DIR		:= obj.$(CFG)/core
+LIB_OBJ_DIR		:= obj.$(CFG)/lib
+OBJ_DIR			:= obj.$(CFG)
+BIN_DIR			:= bin.$(CFG)
+
+
 ###########################################################################
 # Below here nothing should be changed...
 
-ARDUINO_SKETCHBOOK	= $(HOME)/sketchbook
-AS			= $(ARDUINO_SKETCHBOOK)
-USER_LIBS_PATHS		= $(addprefix $(AS)/libraries/, $(ARDUINO_LIBS))
-#space			:=
-#space			+=
-#VPATH			= $(USER_LIBS_PATHS)
+# ARDUINO_SKETCHBOOK	= $(HOME)/sketchbook
+# AS			= $(ARDUINO_SKETCHBOOK)
+USER_LIBS_PATHS		= $(addprefix ../libraries/, $(ARDUINO_LIBS))
 
 ARDUINO_CPP_SRCS	= $(wildcard $(AVR_SRCS_ROOT)/*.cpp)
 ARDUINO_AVR_CPP_SRCS	= $(foreach src, $(wildcard $(AVR_SRCS_ROOT)/avr-libc/*.cpp), $(src))
+
 ARDUINO_C_SRCS		= $(wildcard $(AVR_SRCS_ROOT)/*.c)
 ARDUINO_AVR_C_SRCS	= $(foreach src, $(wildcard $(AVR_SRCS_ROOT)/avr-libc/*.c), $(src))
+
 LIB_CPP_SRCS		= $(foreach src_dir,$(USER_LIBS_PATHS),$(wildcard $(src_dir)/*.cpp))
 LIB_C_SRCS		= $(foreach src_dir,$(USER_LIBS_PATHS),$(wildcard $(src_dir)/*.c))
+
 LOCAL_ARD_SRCS		+= $(wildcard *.ino)
 LOCAL_ARD_SRCS		+= $(wildcard *.pde)
 LOCAL_CPP_SRCS		+= $(wildcard *.cpp)
@@ -41,15 +41,11 @@ ARDUINO_AVR_SRCS	= $(ARDUINO_AVR_CPP_SRCS) $(ARDUINO_AVR_C_SRCS)
 LIB_SRCS		= $(LIB_CPP_SRCS) $(LIB_C_SRCS)
 SRCS			= $(LOCAL_C_SRCS) $(LOCAL_CPP_SRCS) $(LOCAL_ARD_SRCS)
 
-#LOCAL_SRCS		+= $(LOCAL_C_SRCS) $(LOCAL_CPP_SRCS)
-#SRCS			=  $(LOCAL_ARD_SRCS) $(LIB_CPP_SRCS) $(LOCAL_CPP_SRCS) $(LOCAL_C_SRCS)
-#SRCS_BASE		= $(basename $(SRCS))
 
-ARDUINO_OBJ_DIR		= obj/core
+
 LIB_SRC_DIR		= src/lib
-LIB_OBJ_DIR		= obj/lib
-OBJ_DIR			= obj
 
+SRC_DIR			= .
 
 ARDUINO_OBJS		= $(foreach src, $(ARDUINO_SRCS), $(addsuffix .o, $(ARDUINO_OBJ_DIR)/$(notdir $(src))))
 ARDUINO_OBJS		+= $(foreach src, $(ARDUINO_AVR_SRCS), $(addsuffix .o, $(ARDUINO_OBJ_DIR)/avr-libc/$(notdir $(src))))
@@ -67,7 +63,7 @@ ifndef ARDUINO_LIBS
 	ARDUINO_LIBS += $(PERM_LIBS)
     # automatically determine included libraries
     #ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_DIR)/libraries/*)), $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_SRCS)))
-    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_SKETCHBOOK)/libraries/*)), \
+    ARDUINO_LIBS += $(filter $(notdir $(wildcard ../libraries/*)), \
         $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(SRCS)))
 endif
 ########################################################################
@@ -79,8 +75,6 @@ AVRDUDE_PATH		= /usr/bin
 
 FORMAT			= ihex
 
-BIN_DIR			= bin
-OBJ_DIR			= .
 
 
 # Name of this Makefile (used for "make depend").
@@ -120,10 +114,8 @@ CXXTUNING = -fno-exceptions -ffunction-sections -fdata-sections
 CEXTRA = --pedantic 
 CXXEXTRA = 
 
-#avr-g++ -c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=atmega328p -DF_CPU=8000000L -MMD -DUSB_VID=null -DUSB_PID=null -DARDUINO=105 
 CFLAGS =  -c -g -O$(OPT) $(CSTANDARD) $(CWARN) $(CTUNING) -mmcu=$(MCU) $(CDEFS) $(CEXTRA) $(CINCS) 
 CXXFLAGS = -c -g -O$(OPT) $(CXXWARN) $(CXXTUNING) -mmcu=$(MCU) $(CXXDEFS) $(CXXEXTRA) $(CXXINCS) 
-#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
 
 LDFLAGS 		= -Wl,-Map,$(BIN_DIR)/$(TARGET).map,--cref -Wl,--gc-sections 
 LDFLAGS			+= $(addprefix -L,$(ARDUINO_OBJ_DIR))
@@ -133,33 +125,30 @@ LDFLAGS			+= $(addprefix -L,$(OBJ_DIR))
 # Programming support using avrdude. Settings and variables.
 
 AVRDUDE_PORT = $(PORT)
-AVRDUDE_WRITE_FLASH = -Uflash:w:$(BIN_DIR)/$(TARGET).hex:i
+AVRDUDE_WRITE_FLASH 	= -Uflash:w:$(BIN_DIR)/$(TARGET).hex:i
 #AVRDUDE_FUSES		= -U lfuse:w:0xFF:m -U hfuse:w:0xDA:m -U efuse:w:0x05:m
 AVRDUDE_FUSES		= -U lfuse:w:0xE2:m -U hfuse:w:0xD8:m -U efuse:w:0x05:m
 AVRDUDE_LOCK		= -U lock:w:0x0f:m
 AVRDUDE_UNLOCK		= -U lock:w:0x3f:m
 
-#AVRDUDE_FLAGS = -V -F -u -C /usr/lib/arduino/hardware/tools/avrdude.conf 
 AVRDUDE_FLAGS = -patmega328p -D -P$(AVRDUDE_PORT) -c$(AVRDUDE_PROGRAMMER) -b$(UPLOAD_RATE) -u
 #$(AVRDUDE_FUSES)
 
 # Program settings
-CC = avr-gcc
-CXX = avr-g++
-OBJCOPY = avr-objcopy
-OBJDUMP = avr-objdump
-AR  = avr-ar
-SIZE = avr-size
-NM = avr-nm
-AVRDUDE = $(AVRDUDE_PATH)/avrdude
-REMOVE = rm -f
-MV = mv -f
+CC 		= avr-gcc
+CXX 		= avr-g++
+OBJCOPY 	= avr-objcopy
+OBJDUMP 	= avr-objdump
+AR  		= avr-ar
+SIZE 		= avr-size
+NM 		= avr-nm
+AVRDUDE 	= $(AVRDUDE_PATH)/avrdude
+REMOVE 		= rm -f
+MV 		= mv -f
 
 # Define all object files.
 # OBJ = $(SRC:.c=.o) $(CXXSRC:.cpp=.o) $(ASRC:.S=.o)
 
-# Define all listing files.
-LST = $(ASRC:.S=.lst) $(CXXSRC:.cpp=.lst) $(SRC:.c=.lst)
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
@@ -174,30 +163,54 @@ else
 LD_LIBS		:=-ltouse -lcore -lm
 endif
 
-# Default target.
+# Targets Specific Variables
+nano:	PORT	= /dev/ttyUSB0
+nano:	F_CPU	= 16000000L
+nano:	UPLOAD_RATE	= 57600
+nano:	PINS_VARIANT	= eightanaloginputs
+nano:	AVR_PART_NO	= ATMEGA328P
+nano:	AVRDUDE_PROGRAMMER= arduino
+nano:	MCU		= atmega328p
+nano:	elf hex upload
+
+uno:	PORT	= /dev/ttyACM0
+uno:	F_CPU	= 16000000L
+uno:	UPLOAD_RATE	= 115200
+uno:	PINS_VARIANT	= standard
+uno:	AVR_PART_NO	= ATMEGA328P
+uno:	AVRDUDE_PROGRAMMER= arduino
+uno:	MCU		= atmega328p
+uno:	elf hex upload
+
+panstamp:	PORT	= /dev/ttyUSB0
+panstamp:	F_CPU	= 8000000L
+panstamp:	UPLOAD_RATE	= 57600
+panstamp:	PINS_VARIANT	= standard
+panstamp:	AVR_PART_NO	= ATMEGA328P
+panstamp:	AVRDUDE_PROGRAMMER= arduino
+panstamp:	MCU		= atmega328p
+panstamp:	elf hex upload
+	
 all: build
-build: elf hex
+build: $(CFG)
 
-panstamp: 
+# Program the device.
+upload: $(BIN_DIR)/$(TARGET).hex
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
-#elf: $(TARGET).elf
-#hex: $(TARGET).hex
+
+
 core:	$(ARDUINO_OBJ_DIR)/libcore.a
-libs:	$(LIB_OBJS_TMP) $(LIB_OBJS) $(LIB_OBJ_DIR)/libtouse.a 
+libs:   $(LIB_OBJS) $(LIB_OBJ_DIR)/libtouse.a 
 ifeq ($(strip $(LIB_OBJS)),)
 elf: 	core $(BIN_DIR)/$(TARGET).elf
 else
-elf: 	core libs $(BIN_DIR)/$(TARGET).elf
+elf: 	core copy_libs libs $(BIN_DIR)/$(TARGET).elf
 endif
 hex: 	$(BIN_DIR)/$(TARGET).hex
 eep: 	$(BIN_DIR)/$(TARGET).eep
 lss: 	$(BIN_DIR)/$(TARGET).lss
 sym: 	$(BIN_DIR)/$(TARGET).sym
-
-# Program the device.
-upload: $(BIN_DIR)/$(TARGET).hex
-	#pulsedtr.py $(PORT)
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
 
 # Display size of file.
@@ -236,49 +249,65 @@ $(BIN_DIR)/$(TARGET).elf: $(OBJS)
 	
 # Compile: create object files from C++ source files.
 $(ARDUINO_OBJ_DIR)/%.cpp.o: $(AVR_SRCS_ROOT)/%.cpp
-	@echo ARDUINO LIBRARIES OBJ FILES FROM Cpp
+	@echo $(ARDUINO_OBJS)
 	@mkdir -p $(ARDUINO_OBJ_DIR)
 	@mkdir -p $(ARDUINO_OBJ_DIR)/avr-libc
+	@echo ARDUINO LIBRARIES OBJ FILES FROM Cpp $@
 	$(CXX) -c $(ALL_CXXFLAGS) $^ -o $@
 	
 
 # Compile: create object files from C source files.
 $(ARDUINO_OBJ_DIR)/%.c.o: $(AVR_SRCS_ROOT)/%.c
-	@echo ARDUINO LIBRARIES OBJ FILES FROM C
 	@mkdir -p $(ARDUINO_OBJ_DIR)
 	@mkdir -p $(ARDUINO_OBJ_DIR)/avr-libc
+	@echo ARDUINO LIBRARIES OBJ FILES FROM C $@
 	$(CC) -c $(ALL_CFLAGS) $^ -o $@
 	
 # Compile: create object files from C++ source files.
-$(LIB_OBJ_DIR)/%.cpp.o: $(LIB_SRC_DIR)/%.cpp
+copy_libs:
+	@echo Copying library sources into sketch directory $(LIB_SRC_DIR)
+	@mkdir -p $(LIB_SRC_DIR)
+	@cp -f $(patsubst %.cpp.o, %.cpp, $(LIB_SRCS)) $(LIB_SRC_DIR)
+	
+#$(LIB_OBJ_DIR)/%.cpp.o: $(LIB_SRC_DIR)/%.cpp
+$(LIB_OBJ_DIR)/%.cpp.o:
 	@echo LIBRARIES OBJ FILES FROM Cpp
 	@mkdir -p $(LIB_OBJ_DIR)
 	$(CXX) -c $(ALL_CXXFLAGS) $(LIB_SRC_DIR)/$*.cpp -o $@
 	
 
 # Compile: create object files from C source files.
-$(LIB_OBJ_DIR)/%.c.o: $(LIB_SRC_DIR)/%.c
+#$(LIB_OBJ_DIR)/%.c.o: $(LIB_SRC_DIR)/%.c
+$(LIB_OBJ_DIR)/%.c.o: 
 	@echo LIBRARIES OBJ FILES FROM C
 	@mkdir -p $(LIB_OBJ_DIR)
 	$(CC) -c $(ALL_CFLAGS) $(LIB_SRC_DIR)/$*.c -o $@
 
-# Compile: create object files from C++ source files.
-$(AS)/libraries/%.o:
-	@echo AS_LIBRARIES OBJ FILES
-	@mkdir -p $(LIB_SRC_DIR)
-	@cp -f $(patsubst %.cpp.o, %.cpp, $@) $(LIB_SRC_DIR)
 	
 # Compile: create object files from C++ source files.
-%.cpp.o: %.cpp
-	@echo BOTTOM 1
-	$(CXX) -c $(ALL_CXXFLAGS) $^ -o $@
+$(OBJ_DIR)/%.cpp.o: $(SRC_DIR)/%.cpp
+	@echo OBJ FILES FROM Cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) -c $(ALL_CXXFLAGS) $(SRC_DIR)/$*.cpp -o $@
 	
 
 # Compile: create object files from C source files.
-%.c.o: %.c
-	@echo BOTTOM 2
-	$(CC) -c $(ALL_CFLAGS) $^ -o $@
+$(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
+	@echo OBJ FILES FROM C
+	@mkdir -p $(OBJ_DIR)
+	$(CC) -c $(ALL_CFLAGS) $(SRC_DIR)/$*.c -o $@
 
+# Compile: create object files from C++ source files.
+##%.cpp.o: %.cpp
+	#@echo BOTTOM 1
+	#$(CXX) -c $(ALL_CXXFLAGS) $^ -o $@
+	
+
+# Compile: create object files from C source files.
+#%.c.o: %.c
+#	@echo BOTTOM 2
+#	$(CC) -c $(ALL_CFLAGS) $^ -o $@
+#
 
 
 
@@ -286,8 +315,9 @@ $(AS)/libraries/%.o:
 # Target: clean project.
 clean:
 	@rm -f *.o *.d *.a *.so
-	@rm -Rf bin/
-	@rm -Rf obj/
+	@rm -Rf bin*
+	@rm -Rf obj*
+	@rm -Rf src/
 
 depend:
 	if grep '^# DO NOT DELETE' $(MAKEFILE) >/dev/null; \
@@ -300,4 +330,4 @@ depend:
 		>> $(MAKEFILE); \
 	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) >> $(MAKEFILE)
 
-.PHONY:	all build elf hex eep lss sym program coff extcoff clean depend sizebefore sizeafter
+.PHONY:	all build elf hex eep lss sym program coff extcoff clean depend sizebefore sizeafter copy_libs 

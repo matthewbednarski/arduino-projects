@@ -16,13 +16,15 @@ void loop();
  */
 void setup()
 {
-  // Init panStamp
-  panstamp.init();
-  Serial.begin(9600);
+
+	Serial.begin(9600);
+	// Init panStamp
+	panstamp.init();
+	Serial.println("Template starting up...");
 
 
-  // Transmit product code
-  getRegister(REGI_PRODUCTCODE)->getData();
+	// Transmit product code
+	getRegister(REGI_PRODUCTCODE)->getData();
 }
 
 /**
@@ -32,10 +34,10 @@ void setup()
  */
 void loop()
 {
-  Serial.print("Product Code: ");
-  Serial.println(REGI_PRODUCTCODE);
-  getRegister(REGI_PRODUCTCODE)->getData();
-  delay(400);
+	Serial.print("Product Code: ");
+	Serial.println(REGI_PRODUCTCODE);
+	getRegister(REGI_PRODUCTCODE)->getData();
+	delay(400);
 }
 
 /**
@@ -43,29 +45,29 @@ void loop()
  */
 DECLARE_COMMON_CALLBACKS()
 
-/**
- * Definition of common registers
- */
+	/**
+	 * Definition of common registers
+	 */
 DEFINE_COMMON_REGISTERS()
 
-/*
- * Definition of custom registers
- */
-// Your custom registers come here
+	/*
+	 * Definition of custom registers
+	 */
+	// Your custom registers come here
 
-/**
- * Initialize table of registers
- */
+	/**
+	 * Initialize table of registers
+	 */
 DECLARE_REGISTERS_START()
-  // Put here pointers to your custom registers
+	// Put here pointers to your custom registers
 DECLARE_REGISTERS_END()
 
-/**
- * Definition of common getter/setter callback functions
- */
+	/**
+	 * Definition of common getter/setter callback functions
+	 */
 DEFINE_COMMON_CALLBACKS()
 
-/**
- * Definition of custom getter/setter callback functions
- */
+	/**
+	 * Definition of custom getter/setter callback functions
+	 */
 
