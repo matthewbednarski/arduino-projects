@@ -11,6 +11,9 @@ Dev-tools
 + avr-binutils
 + gnu-make
 + vim + OmniComplete + CTags
++ tmux for "IDE like" panes
++ screen for serial port monitoring
+
 
 
 TODO
