@@ -11,3 +11,15 @@
 *.lai
 *.la
 *.a
+
+# CTags files
+*.tags
+tags
+
+# Dirs to ignore
+Arduino_spi/
+AutoLight/
+HoneyComm/
+Modem/
+Soil/
+
