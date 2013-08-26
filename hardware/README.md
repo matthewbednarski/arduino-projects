@@ -19,7 +19,7 @@ SPI - Arduino UNO R3
 Image
 -----
 
-![](cc1101-rf1100se_pins.jpg?raw=true)
+![](cc1101_rf1100se_pins.jpg?raw=true)
 
 Image taken from [this setup Example] [1].
 
