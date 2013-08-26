@@ -35,8 +35,7 @@ void setup()
 void loop()
 {
 	Serial.print("Product Code: ");
-	//Serial.println(REGI_PRODUCTCODE);
-	Serial.println(SWAP_PRODUCT_ID);
+	Serial.println(REGI_PRODUCTCODE);
 	getRegister(REGI_PRODUCTCODE)->getData();
 	delay(200);
 }
