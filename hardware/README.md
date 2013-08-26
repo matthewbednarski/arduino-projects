@@ -16,6 +16,9 @@ SPI - Arduino UNO R3
 | SCK  | 13     | 4        |
 | GDO0 |  2     | 8        |
 
+Image
+-----
+
 ![](../hardware/cc1101-rf1100se_pins.jpg?raw=true)
 
 Image taken from [this setup Example] [1].
