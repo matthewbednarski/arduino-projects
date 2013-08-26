@@ -20,6 +20,7 @@ void setup()
 	Serial.begin(38400);
 	// Init panStamp
 	panstamp.init();
+	panstamp.cc1101.setCarrierFreq(CFREQ_433);
 	Serial.println("Template starting up...");
 
 
