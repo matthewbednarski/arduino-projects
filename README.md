@@ -18,9 +18,9 @@ Dev-tools
 
 TODO
 ----
-- [ ] Add Libraries folder
-- [ ] Add current makefile templates
+- [X] Add Libraries folder
+- [X] Add current makefile templates
 
-- [ ] Fix makefile template to be more flexible
+- [X] Fix makefile template to be more flexible
 	Right now each target device needs one makefile
-
+- [ ] Add scripts for duplicating a "template"
