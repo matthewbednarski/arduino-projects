@@ -181,6 +181,7 @@ uno:	AVR_PART_NO	= ATMEGA328P
 uno:	AVRDUDE_PROGRAMMER= arduino
 uno:	MCU		= atmega328p
 uno:	elf hex upload
+.uno:	uno
 
 panstamp:	PORT	= /dev/ttyUSB0
 panstamp:	F_CPU	= 8000000L
@@ -190,9 +191,10 @@ panstamp:	AVR_PART_NO	= ATMEGA328P
 panstamp:	AVRDUDE_PROGRAMMER= arduino
 panstamp:	MCU		= atmega328p
 panstamp:	elf hex upload
+.panstamp:	panstamp
 	
 all: build
-build: $(CFG)
+build: .$(CFG)
 
 # Program the device.
 upload: $(BIN_DIR)/$(TARGET).hex

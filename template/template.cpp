@@ -17,7 +17,7 @@ void loop();
 void setup()
 {
 
-	Serial.begin(9600);
+	Serial.begin(38400);
 	// Init panStamp
 	panstamp.init();
 	Serial.println("Template starting up...");
@@ -35,9 +35,10 @@ void setup()
 void loop()
 {
 	Serial.print("Product Code: ");
-	Serial.println(REGI_PRODUCTCODE);
+	//Serial.println(REGI_PRODUCTCODE);
+	Serial.println(SWAP_PRODUCT_ID);
 	getRegister(REGI_PRODUCTCODE)->getData();
-	delay(400);
+	delay(200);
 }
 
 /**
