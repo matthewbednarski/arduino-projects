@@ -1,4 +1,6 @@
+#include <Arduino.h>
 #include "utils.h"
 
-inline:wq
-
+bool timeElapsed(int previous, int interval){
+	return (millis() - previous ) >= interval;
+}

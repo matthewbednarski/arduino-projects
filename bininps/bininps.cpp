@@ -115,37 +115,37 @@ DECLARE_REGISTERS_START()
 	&regCounters
 DECLARE_REGISTERS_END()
 
-	/**
-	 * Definition of common getter/setter callback functions
-	 */
+/**
+* Definition of common getter/setter callback functions
+*/
 DEFINE_COMMON_CALLBACKS()
-/**
- * Pin Change Interrupt flag
- */
-volatile boolean pcIRQ = false;
+	/**
+	 * Pin Change Interrupt flag
+	 */
+	volatile boolean pcIRQ = false;
+
+	/**
+	 * Binary states
+	 */
+	byte stateLowByte = 0, stateHighByte = 0;
+
+	/**
+	 * Pure Binary inputs
+	 */
+	uint8_t binaryPin[] = {0, 1, 0, 1, 2, 3, 4, 5};                                              // Binary pins (Atmega port bits)
+	volatile uint8_t *binaryPort[] = {&PINB, &PINB, &PINC, &PINC, &PINC, &PINC, &PINC, &PINC};   // Binary ports (Atmega port)
+	int lastStateBinary[] = {-1, -1, -1, -1, -1, -1, -1, -1};                                    // Initial pin states
+
+	/**
+ 	* Counters
+ 	*/
+	uint8_t counterPin[] = {3, 5, 6, 7};                                // Counter pins (Atmega port bits)
+	volatile uint8_t *counterPort[] = {&PIND, &PIND, &PIND, &PIND};     // Counter ports (Atmega port)
+	unsigned long counter[] = {0, 0, 0, 0};                             // Initial counter values
+	int lastStateCount[] = {-1, -1, -1, -1};                            // Initial pin states
 
 /**
- * Binary states
- */
-byte stateLowByte = 0, stateHighByte = 0;
-
-/**
- * Pure Binary inputs
- */
-uint8_t binaryPin[] = {0, 1, 0, 1, 2, 3, 4, 5};                                              // Binary pins (Atmega port bits)
-volatile uint8_t *binaryPort[] = {&PINB, &PINB, &PINC, &PINC, &PINC, &PINC, &PINC, &PINC};   // Binary ports (Atmega port)
-int lastStateBinary[] = {-1, -1, -1, -1, -1, -1, -1, -1};                                    // Initial pin states
-
-/**
- * Counters
- */
-uint8_t counterPin[] = {3, 5, 6, 7};                                // Counter pins (Atmega port bits)
-volatile uint8_t *counterPort[] = {&PIND, &PIND, &PIND, &PIND};     // Counter ports (Atmega port)
-unsigned long counter[] = {0, 0, 0, 0};                             // Initial counter values
-int lastStateCount[] = {-1, -1, -1, -1};                            // Initial pin states
-
-/**
- * Pin Change Interrupt vectors
+* Pin Change Interrupt vectors
  */
 SIGNAL(PCINT0_vect)
 {
@@ -343,17 +343,17 @@ void loop()
  * Creation date: 01/19/2012
  */
 
-	/**
-	 * Definition of custom getter/setter callback functions
-	 */
+/**
+ * Definition of custom getter/setter callback functions
+ */
 
-	/**
-	 * updtVoltSupply
-	 *
-	 * Measure voltage supply and update register
-	 *
-	 * 'rId'  Register ID
-	 */
+/**
+ * updtVoltSupply
+ *
+ * Measure voltage supply and update register
+ *
+ * 'rId'  Register ID
+ */
 const void updtVoltSupply(byte rId)
 {
 	unsigned short result;
