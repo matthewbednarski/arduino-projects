@@ -317,8 +317,10 @@ $(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
 # Target: clean project.
 clean:
 	@rm -f *.o *.d *.a *.so
-	@rm -Rf bin*
-	@rm -Rf obj*
+	@rm -Rf bin.*/
+	@rm -Rf bin/
+	@rm -Rf obj.*/
+	@rm -Rf obj/
 	@rm -Rf src/
 
 depend:

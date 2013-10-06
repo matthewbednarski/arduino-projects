@@ -1,0 +1,662 @@
+
+
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ 
+ <link rel="canonical" href="http://code.google.com/p/panstamp/wiki/developmentsteps" />
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ 
+ var codesite_token = "84gfT9SJJb5WdlPb7TDypjgWqPU:1381072416132";
+ 
+ 
+ var CS_env = {"relativeBaseUrl":"","domainName":null,"assetVersionPath":"http://www.gstatic.com/codesite/ph/15490321151412058579","assetHostPath":"http://www.gstatic.com/codesite/ph","token":"84gfT9SJJb5WdlPb7TDypjgWqPU:1381072416132","projectHomeUrl":"/p/panstamp","loggedInUserEmail":"matthewbednarski@gmail.com","profileUrl":"/u/109325049111411815845/","projectName":"panstamp"};
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ 
+ </script>
+ 
+ 
+ <title>developmentsteps - 
+ panstamp -
+ 
+ 
+ Documentation wiki and source code - Google Project Hosting
+ </title>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/15490321151412058579/css/core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/15490321151412058579/css/ph_detail.css" >
+ 
+ 
+ 
+ <link type="application/atom+xml" rel="alternate" href="/feeds/p/panstamp/svnchanges/basic?path=/wiki/developmentsteps.wiki">
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/15490321151412058579/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ 
+ 
+ #maincol {
+ padding-top: 0;
+ padding-bottom: 0;
+ }
+
+ 
+ </style>
+</head>
+<body class="t6">
+<script type="text/javascript">
+ window.___gcfg = {lang: 'en'};
+ (function() 
+ {var po = document.createElement("script");
+ po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+ var s = document.getElementsByTagName("script")[0];
+ s.parentNode.insertBefore(po, s);
+ })();
+</script>
+<div class="headbg">
+
+ <div id="gaia">
+ 
+
+ <span>
+ 
+ 
+ 
+ <a href="#" id="multilogin-dropdown" onclick="return false;"
+ ><u><b>matthewbednarski@gmail.com</b></u> <small>&#9660;</small></a>
+ 
+ 
+ | <a href="/u/109325049111411815845/" id="projects-dropdown" onclick="return false;"
+ ><u>My favorites</u> <small>&#9660;</small></a>
+ | <a href="/u/109325049111411815845/" onclick="_CS_click('/gb/ph/profile');"
+ title="Profile, Updates, and Settings"
+ ><u>Profile</u></a>
+ | <a href="https://www.google.com/accounts/Logout?continue=http%3A%2F%2Fcode.google.com%2Fp%2Fpanstamp%2Fwiki%2Fdevelopmentsteps" 
+ onclick="_CS_click('/gb/ph/signout');"
+ ><u>Sign out</u></a>
+ 
+ </span>
+
+ </div>
+
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if lte IE 7]>
+<div style="text-align:center;">
+Your version of Internet Explorer is not supported. Try a browser that
+contributes to open source, such as <a href="http://www.firefox.com">Firefox</a>,
+<a href="http://www.google.com/chrome">Google Chrome</a>, or
+<a href="http://code.google.com/chrome/chromeframe/">Google Chrome Frame</a>.
+</div>
+<![endif]-->
+
+
+
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0"
+ itemscope itemtype="http://schema.org/CreativeWork">
+ <tr style="height: 58px;">
+ 
+ 
+ 
+ <td id="plogo">
+ <link itemprop="url" href="/p/panstamp">
+ <a href="/p/panstamp/">
+ 
+ 
+ <img src="/p/panstamp/logo?cct=1370197336"
+ alt="Logo" itemprop="image">
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname">
+ <a href="/p/panstamp/"><span itemprop="name">panstamp</span></a>
+ </div>
+ 
+ <div id="psum">
+ <a id="project_summary_link"
+ href="/p/panstamp/"><span itemprop="description">Documentation wiki and source code</span></a>
+ 
+ </div>
+ 
+ 
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ 
+ <form action="/hosting/search">
+ <input size="30" name="q" value="" type="text">
+ 
+ <input type="submit" name="projectsearch" value="Search projects" >
+ </form>
+ 
+ </tr>
+ </table>
+
+</div>
+
+ 
+<div id="mt" class="gtb"> 
+ <a href="/p/panstamp/" class="tab ">Project&nbsp;Home</a>
+ 
+ 
+ 
+ 
+ <a href="/p/panstamp/downloads/list" class="tab ">Downloads</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/panstamp/w/list" class="tab active">Wiki</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/panstamp/issues/list"
+ class="tab ">Issues</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/panstamp/source/checkout"
+ class="tab ">Source</a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class=gtbc></div>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ 
+ 
+ 
+ <td class="subt">
+ <div class="issueDetail">
+<div class="isf">
+ 
+ <span class="inIssueList"> 
+ <span>Search</span>
+ <form action="/p/panstamp/w/list" method="GET" style="display:inline">
+ <select id="can" name="can" >
+ <option disabled="disabled">Search within:</option>
+ 
+ <option value="1" >&nbsp;All wiki pages</option>
+ <option value="3" >&nbsp;Featured pages</option>
+ <option value="2" selected="selected">&nbsp;Current pages</option>
+ 
+ 
+ <option value="5" >&nbsp;My starred pages</option>
+ 
+ <option value="4" >&nbsp;Deprecated pages</option>
+ 
+ </select>
+ <span>for</span>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q" value=""
+ autocomplete="off" ></span>
+ 
+ 
+ 
+ <input type="submit" value="Search" >
+ </form>
+ </span>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+</div>
+</div>
+
+ </td>
+ 
+ 
+ 
+ 
+ 
+ 
+ <td align="right" valign="top" class="bevel-right"></td>
+ </tr>
+</table>
+
+
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+<div id="maincol"
+ 
+>
+
+ 
+
+
+
+
+
+
+
+ <style type="text/css">
+ .delcom { background: #e8e8e8 }
+ .commentcontent {
+ margin: 2em;
+ padding: 0px 10px;
+ width: 66em;
+ }
+ .artifactcomment {
+ border-top: 3px solid #c3d9ff;
+ }
+ #commentform {
+ border-top: 3px solid #c3d9ff;
+ }
+ </style>
+
+<div id="wikipage">
+<table>
+ <tr>
+ 
+ 
+ <td style="vertical-align:top; padding-left:5px">
+ 
+ <div id="wikiheader">
+ 
+ <img width="15" height="15" id="star_img"
+ src="http://www.gstatic.com/codesite/ph/images/star_off.gif"
+ style="cursor:pointer"
+ onclick="_CS_toggleStar(this,
+ {'scope': 'wiki',
+ 'user': '_CURRENT_USER',
+ 'item': 'panstamp:developmentsteps'
+ });"/>
+ 
+ <span style="font-size:120%;font-weight:bold">developmentsteps</span>
+ &nbsp;
+ <div> 
+ 
+ 
+ <br/>
+ 
+ <a class="label" style="padding-top: 2px"
+ href="/p/panstamp/w/list?q=label:SWAP"
+ title=""
+ >SWAP</a>, 
+ 
+ <a class="label" style="padding-top: 2px"
+ href="/p/panstamp/w/list?q=label:development"
+ title=""
+ >development</a>, 
+ 
+ <a class="label" style="padding-top: 2px"
+ href="/p/panstamp/w/list?q=label:steps"
+ title=""
+ >steps</a>
+ 
+ 
+ 
+ <div id="wikiauthor" style="float:right">
+ Updated <span title="Wed Sep  5 08:57:49 2012">
+ Sep 5, 2012</span>
+ 
+ by 
+
+ <a class="userlink"
+ href="/u/103913633767553059800/">dbereng...@usapiens.com</a
+>
+ 
+ </div>
+ </div>
+ </div>
+ 
+ <div id="wikicontent">
+ <div class="vt" id="wikimaincol">
+ <h1><a name="Steps_to_be_done_along_the_development_of_a_new_SWAP_device"></a>Steps to be done along the development of a new SWAP device<a href="#Steps_to_be_done_along_the_development_of_a_new_SWAP_device" class="section_anchor"></a></h1><ul><li><a href="/p/panstamp/wiki/developmentsteps#Introduction">Introduction</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#Design_process">Design process</a> </li><ul><li><a href="/p/panstamp/wiki/developmentsteps#Step_1:_Choose_your_hardware">Step 1: Choose your hardware</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#Step_2:_Create_your_Arduino_sketch">Step 2: Create your Arduino sketch</a> </li><ul><li><a href="/p/panstamp/wiki/developmentsteps#product.h:_specify_your_product_code">product.h: specify your product code</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#regtable.ino:_create_your_custom_registers">regtable.ino: create your custom registers</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#regtable.ino:_define_updater_and_setter_functions_for_your_registers">regtable.ino: define updater and setter functions for your registers</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#regtable.h:_define_ID&#x27;s_for_our_custom_registers">regtable.h: define ID&#x27;s for our custom registers</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#Main.ino_file:_initialize_the_board">Main.ino file: initialize the board</a> </li><li><a href="/p/panstamp/wiki/developmentsteps#Main.ino_file:_Run_periodic_tasks">Main.ino file: Run periodic tasks</a> </li></ul><li><a href="/p/panstamp/wiki/developmentsteps#Step_3:_Create_a_definition_file_for_our_new_device">Step 3: Create a definition file for our new device</a> </li></ul><li><a href="/p/panstamp/wiki/developmentsteps#Automatic_generation_of_source_code">Automatic generation of source code</a> </li></ul><h1><a name="Introduction"></a>Introduction<a href="#Introduction" class="section_anchor"></a></h1><p>This tutorial explains some basic steps to follow during the development of new SWAP devices. If you base your development on a panStamp or any other Arduino-based platform and you follow this guide, you will surely find this process quite straightforward. </p><h1><a name="Design_process"></a>Design process<a href="#Design_process" class="section_anchor"></a></h1><h2><a name="Step_1:_Choose_your_hardware"></a>Step 1: Choose your hardware<a href="#Step_1:_Choose_your_hardware" class="section_anchor"></a></h2><p>Choose your preferred sensors, power source and actuators that fit your design. Identify your endpoints and configuration parameters. Decide how you want to group these values in the panStamp register table. </p><h2><a name="Step_2:_Create_your_Arduino_sketch"></a>Step 2: Create your Arduino sketch<a href="#Step_2:_Create_your_Arduino_sketch" class="section_anchor"></a></h2><p>Create a new Arduino sketch based on our template or any of the existing sketches. Then make the necessary modifications, as explained below: </p><h3><a name="product.h:_specify_your_product_code"></a>product.h: specify your product code<a href="#product.h:_specify_your_product_code" class="section_anchor"></a></h3><p><strong>product.h</strong> contains some fields that need to be filled in order to make our device identifiable from the SWAP network. Manufacturer ID and Product ID are the most important ones. Remember to use the unique Manufacturer ID, provided during the member registration process. Product ID can take any 4-byte value and should be used only in devices of the same type (same product). Once our developments completed, this Product ID and our new device definition file should be uploaded to the central repositories in order to make our devices identifiable by any application or device.  </p><pre class="prettyprint">/**
+ * Hardware version
+ */
+#define HARDWARE_VERSION        0x00000000
+
+/**
+ * Firmware version
+ */
+#define FIRMWARE_VERSION        0x00000000
+
+/**
+ * Manufacturer SWAP ID
+ */
+#define SWAP_MANUFACT_ID        0x00000000
+
+/**
+ * Product SWAP ID
+ */
+#define SWAP_PRODUCT_ID         0x00000000</pre><h3><a name="regtable.ino:_create_your_custom_registers"></a>regtable.ino: create your custom registers<a href="#regtable.ino:_create_your_custom_registers" class="section_anchor"></a></h3><p><strong>regtable.ino</strong> is the place where to define custom registers and their behavior. To make this tutorial a bit easier, let&#x27;s suppose we want to implement a sketch for a device that has two analog inputs and two PWM outputs. Thus, we can define two custom registers, each containing two endpoints: </p><pre class="prettyprint">/*
+ * Definition of custom registers
+ */
+// ADC inputs
+static byte dtADCinputs[4];                   // Data container: two 10-bit ADC values
+REGISTER regADCinputs(dtADCinputs,            // Pointer to the data container
+                      sizeof(dtADCinputs),    // Size of the data container
+                      &amp;updtADCinputs,         // Pointer to the updater function
+                      NULL);                  // Pointer to the setter function
+
+// PWM outputs
+static byte dtPWMoutput0[1];                  // Data container: one 8-bit PWM value
+REGISTER regPWMoutput0(dtPWMoutput0,          // Pointer to the data container
+                      sizeof(dtPWMoutput0),   // Size of the data container
+                      NULL,                   // Pointer to the updater function
+                      &amp;setPWMoutput);         // Pointer to the setter function
+
+static byte dtPWMoutput1[1];                  // Data container: one 8-bit PWM value
+REGISTER regPWMoutput1(dtPWMoutput1,          // Pointer to the data container
+                      sizeof(dtPWMoutput1),   // Size of the data container
+                      NULL,                   // Pointer to the updater function
+                      &amp;setPWMoutput);         // Pointer to the setter function</pre><p>And now we have to insert pointers to the above registers into the global table of registers. These pointers have to be inserted in the same order as they were defined. </p><pre class="prettyprint">/**
+ * Initialize table of registers
+ */
+DECLARE_REGISTERS_START()
+  &amp;regADCinputs,    // Register ID = 11 (0x0B)
+  &amp;regPWMoutput0,   // Register ID = 12 (0x0C)
+  &amp;regPWMoutput1,   // Register ID = 13 (0x0D)
+DECLARE_REGISTERS_END()</pre><p>The above declaration appends our custom registers after the first <a href="/p/panstamp/wiki/SWAPregisters">standard (mandatory) registers</a> (Register ID&#x27;s 0 to 10) so that every register, custom or standard, can be accessed in the same way, via <i>getRegister</i>. Also note that whilst PWM output values are placed in two independent registers (regPWMoutput0 and regPWMoutput1), ADC inputs share a common register (regADCinputs). Doing this, only one SWAP status packet will be needed in order to inform about the value of both ADC readings. On the output side, each PWM output will be controllable through a different register command (Register ID 12 and 13). This could be done differently but we think that grouping inputs in common registers and maintaining outputs in independent registers is a good practice, a good compromise between low bandwidth consumption (input side) and logic isolation between outputs. </p><h3><a name="regtable.ino:_define_updater_and_setter_functions_for_your_regis"></a>regtable.ino: define updater and setter functions for your registers<a href="#regtable.ino:_define_updater_and_setter_functions_for_your_regis" class="section_anchor"></a></h3><p>Let&#x27;s now define every <i>updater</i> and <i>setter</i> function. <i>Updater</i> functions are responsible of updating registers values before  transmitting <i>status</i> packets. On the other hand, <i>setter</i> functions are the only means to modify registers from the outside by sending <i>commands</i> to our device. As result, regADCinputs, defines only an updater function since it contains only inputs (ADC inputs) and they are not modifiable from the outside. regPWMoutputs contains only outputs so we only need the <i>setter</i> function in this case. <a href="/p/panstamp/wiki/panstampstack">This page</a> explains how <i>updater</i> and <i>setter</i> functions work  and how they interact with the SWAP network. </p><p>In our example, we have to define an <i>updater</i> function, called <strong>updtADCinputs</strong>, that will have to read both ADC inputs and then place the readings into the data container (<strong>dtADCinputs</strong>): </p><pre class="prettyprint">/**
+ * updtADCinputs
+ *
+ * Read ADC inputs and place the readings into the corresponding
+ * register bytes
+ *
+ * &#x27;rId&#x27;  Register ID
+ */
+const void updtADCinputs(byte rId)
+{
+  int reading;
+
+  // Read ADC input 0 (panStamp pin 4)
+  reading = analogRead(0);
+  // Pace reading into the first two bytes of the register. Big endian representation
+  dtADCinputs[0] = (reading &gt;&gt; 8) &amp; 0xFF;   // Replaceable by: regTable[rId]-&gt;value[0] = (reading &gt;&gt; 8) &amp; 0xFF;
+  dtADCinputs[1] = reading &amp; 0xFF;          // Replaceable by: regTable[rId]-&gt;value[1] = reading &amp; 0xFF;
+
+  // Read ADC input 1 (panStamp pin 5)
+  reading = analogRead(1);
+  // Pace reading into the first two bytes of the register. Big endian representation
+  dtADCinputs[2] = (reading &gt;&gt; 8) &amp; 0xFF;   // Replaceable by: regTable[rId]-&gt;value[2] = (reading &gt;&gt; 8) &amp; 0xFF;
+  dtADCinputs[3] = reading &amp; 0xFF;          // Replaceable by: regTable[rId]-&gt;value[3] = reading &amp; 0xFF;
+}</pre><p>And now we have to define <strong>setPWMoutputs</strong>, the setter function for both PWM output registers (regPWMoutput0 and regPWMoutput1): </p><pre class="prettyprint">/**
+ * setPWMoutput
+ *
+ * Set PWM levels
+ *
+ * &#x27;rId&#x27;     Register ID
+ * &#x27;level&#x27;    New PWM level
+ */
+const void setPWMoutputs(byte rId, byte *level)
+{
+  int pin;
+
+  // Update register
+  memcpy(regTable[rId]-&gt;value, level, sizeof(regTable[rId]-&gt;value));
+
+  // Set output pin
+  switch(rId):
+  {
+    case 12:
+      pin = 3;    // Arduino digital pin 3 - panStamp pin 18
+      break;
+    case 13:
+      pin = 5;    // Arduino digital pin 5 - panStamp pin 20
+      break;
+    default:
+      return;
+  }
+
+  // Control PWM output
+  analogWrite(pin, level[0]);
+}</pre><h3><a name="regtable.h:_define_ID&#x27;s_for_our_custom_registers"></a>regtable.h: define ID&#x27;s for our custom registers<a href="#regtable.h:_define_ID&#x27;s_for_our_custom_registers" class="section_anchor"></a></h3><p>Finally, we have to define ID&#x27;s for our new registers. Open <i>regtable.h</i> and enter your ID&#x27;s between <i>DEFINE_REGINDEX_START()</i> and <i>DEFINE_REGINDEX_END()</i> as follows: </p><pre class="prettyprint">/**
+ * Register indexes
+ */
+DEFINE_REGINDEX_START()
+  REGI_ADCINPUTS,
+  REGI_PWMOUTPUT0,
+  REGI_PWMOUTPUT1
+DEFINE_REGINDEX_END()</pre><p>Now our new registers can be accessed using <i>getRegister</i> from our sketch: </p><pre class="prettyprint">// Update ADC values and transmit SWAP status packet
+getRegister(REGI_ADCINPUTS)-&gt;getData();
+
+// Set first PWM output level and transmit SWAP status packet
+getRegister(REGI_PWMOUTPUT0)-&gt;setData(85);
+
+// Read second PWM register value and transmit SWAP status packet
+getRegister(REGI_PWMOUTPUT1)-&gt;getData();</pre><h3><a name="Main.ino_file:_initialize_the_board"></a>Main.ino file: initialize the board<a href="#Main.ino_file:_initialize_the_board" class="section_anchor"></a></h3><p>The rest of the work is very simple. From our main INO file we first have to include these two files: </p><pre class="prettyprint">#include &quot;regtable.h&quot;
+#include &quot;panstamp.h&quot;</pre><p>And then initialize the panStamp board: </p><pre class="prettyprint">**
+ * setup
+ *
+ * Arduino setup function
+ */
+void setup()
+{
+  // Initialize PWM outputs
+  pinMode(3, OUTPUT);
+  digitalWrite(3, LOW);
+  pinMode(5, OUTPUT);
+  digitalWrite(5, LOW);
+
+  // Initialize panStamp
+  panstamp.init();
+
+  // Transmit product code
+  getRegister(REGI_PRODUCTCODE)-&gt;getData();
+}</pre><p>The above code is suitable for a device that is always listening to the SWAP network, that is the case of our ADC/PWM example. But, what if we need to write some registers onto a low-power device? What if this device sleeps most of the time? In this case, we recommend to setup an initial synchronization period within which the board will be ready to accept commands: </p><pre class="prettyprint">**
+ * setup
+ *
+ * Arduino setup function
+ */
+void setup()
+{
+  int i;
+
+  pinMode(LEDPIN, OUTPUT);
+  digitalWrite(LEDPIN, LOW);
+
+  // Init panStamp
+  panstamp.init();
+
+  // Transmit product code
+  getRegister(REGI_PRODUCTCODE)-&gt;getData();
+
+  // Enter SYNC state
+  panstamp.enterSystemState(SYSTATE_SYNC);
+
+  // During 3 seconds, listen the network for possible commands whilst the LED blinks
+  for(i=0 ; i&lt;6 ; i++)
+  {
+    digitalWrite(LEDPIN, HIGH);
+    delay(100);
+    digitalWrite(LEDPIN, LOW);
+    delay(400);
+  }
+  // Transmit periodic Tx interval
+  getRegister(REGI_TXINTERVAL)-&gt;getData();
+  // Transmit power voltage
+  getRegister(REGI_VOLTSUPPLY)-&gt;getData();
+  // Switch to Rx OFF state
+  panstamp.enterSystemState(SYSTATE_RXOFF);
+}</pre><p>The above is maybe the most simple way to put a low-power board in <i>SYNC</i> mode. We just have to reset the board and it will enter the <i>SYNC</i> mode for a given period. </p><h3><a name="Main.ino_file:_Run_periodic_tasks"></a>Main.ino file: Run periodic tasks<a href="#Main.ino_file:_Run_periodic_tasks" class="section_anchor"></a></h3><p>Finally we have to write the necessary code in <i>loop()</i>. We&#x27;ll usually write here the code that periodically reads the sensors and puts the board in power-down mode. For our example we need no power-down function so we&#x27;d just write the following: </p><pre class="prettyprint">/**
+ * loop
+ *
+ * Arduino main loop
+ */
+void loop()
+{
+  // Transmit ADC data
+  getRegister(REGI_ADCINPUTS)-&gt;getData();
+
+  // Wait 5 sec before sending ADC values again
+  delay(5000);
+}</pre><p>If we want to put our panStamp in power-down mode we have to do the following: </p><pre class="prettyprint">/**
+ * loop
+ *
+ * Arduino main loop
+ */
+void loop()
+{
+  // Transmit ADC data
+  getRegister(REGI_ADCINPUTS)-&gt;getData();
+
+  // Sleep for the amount of seconds specified in &quot;Tx interval register&quot; (standard register with ID = 10)
+  panstamp.goToSleep();
+}</pre><h2><a name="Step_3:_Create_a_definition_file_for_our_new_device"></a>Step 3: Create a definition file for our new device<a href="#Step_3:_Create_a_definition_file_for_our_new_device" class="section_anchor"></a></h2><p>Device definition files are explained in <a href="/p/panstamp/wiki/devicexml">this page</a>. They are basically xml files defining registers, parameters and endpoints for a given SWAP product. If you plan to configure your panStamps from <a href="/p/panstamp/wiki/SWAPdmt">SWAPdmt</a> or use any computer application based on our <a href="/p/panstamp/wiki/pyswap">Python pyswap library</a> then you definitely need a proper <a href="/p/panstamp/wiki/devicexml">Device Definition File</a>. Otherwise, you can skip this step. </p><p>In our example we should create a definition file similar to this one: </p><pre class="prettyprint">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;device&gt;
+  &lt;developer&gt;MyDevName&lt;/developer&gt;
+  &lt;product&gt;ADC/PWM module&lt;/product&gt;
+  &lt;pwrdownmode&gt;false&lt;/pwrdownmode&gt;
+  &lt;regular&gt;
+    &lt;reg name=&quot;ADC inputs&quot; id=&quot;11&quot;&gt;
+      &lt;endpoint name=&quot;ADC input 0&quot; type=&quot;num&quot; dir=&quot;inp&quot;&gt;
+        &lt;position&gt;0&lt;/position&gt;
+        &lt;size&gt;2&lt;/size&gt;
+      &lt;/endpoint&gt;
+      &lt;endpoint name=&quot;ADC input 1&quot; type=&quot;num&quot; dir=&quot;inp&quot;&gt;
+        &lt;position&gt;2&lt;/position&gt;
+        &lt;size&gt;2&lt;/size&gt;
+      &lt;/endpoint&gt;
+    &lt;/reg&gt;
+    &lt;reg name=&quot;PWM output 0&quot; id=&quot;12&quot;&gt;
+      &lt;endpoint name=&quot;PWM output 0&quot; type=&quot;num&quot; dir=&quot;inp&quot;&gt;
+        &lt;size&gt;1&lt;/size&gt;
+      &lt;/endpoint&gt;
+    &lt;/reg&gt;
+    &lt;reg name=&quot;PWM output 1&quot; id=&quot;13&quot;&gt;
+      &lt;endpoint name=&quot;PWM output 1&quot; type=&quot;num&quot; dir=&quot;inp&quot;&gt;
+        &lt;size&gt;1&lt;/size&gt;
+      &lt;/endpoint&gt;
+    &lt;/reg&gt;
+  &lt;/regular&gt;
+&lt;/device&gt;</pre><p>Our <a href="/p/panstamp/wiki/devicexml">Device Definition File</a> is now ready for final consumption. We can now submit this file, named <i>mynewdevice.xml_and the product code to the Product Registration section of the forum. Once received, definition file and product code will be uploaded to the central repositories. </i></p><h1><a name="Automatic_generation_of_source_code"></a>Automatic generation of source code<a href="#Automatic_generation_of_source_code" class="section_anchor"></a></h1><p>Since the release of <a href="/p/panstamp/wiki/SWAPmaker">SWAPmaker</a>, source code can be easily initialized with the most common parts, including the definition of registers and callback functions. We now strongly suggest to use this wizard and then complete the source code with your desired functionality (read sensors, write outputs, etc). SWAPmaker also generates the Device Definition File so developers no longer need to manually edit the xml files by hand. </p>
+ </div>
+ </div>
+ </td><tr>
+</table>
+ </div>
+
+
+ 
+ 
+ 
+ 
+ 
+ <div id="commentform">
+ <form action="../w/detail.do" method="post">
+ <table>
+ <tr><td class="vt">
+ <input type="hidden" name="pagename" value="developmentsteps" >
+ <input type="hidden" name="token" value="84gfT9SJJb5WdlPb7TDypjgWqPU:1381072416132" >
+ <div class="graytext" style="float: right;">
+ Hint: You can use <a href="http://code.google.com/p/support/wiki/WikiSyntax">Wiki Syntax.</a>
+ </div>
+ <div>Enter a comment:</div>
+ <textarea name="content" rows="6" cols="100"></textarea><br><br>
+ <input type="submit" name="submit" value="Submit" >
+ </td>
+ </table>
+ </form>
+ </div>
+ 
+ 
+ 
+ 
+ 
+ <form name="delcom" action="../w/delComment.do" method="POST">
+ <input type="hidden" name="sequence_num" value="" >
+ <input type="hidden" name="create_time" value="" >
+ <input type="hidden" name="mode" value="" >
+ <input type="hidden" name="pagename" value="developmentsteps" >
+ <input type="hidden" name="token" value="84gfT9SJJb5WdlPb7TDypjgWqPU:1381072416132" >
+ </form>
+
+
+ <script src="http://www.gstatic.com/codesite/ph/15490321151412058579/js/prettify/prettify.js"></script>
+ <script type="text/javascript">
+ prettyPrint();
+ </script>
+
+<script type="text/javascript" src="http://www.gstatic.com/codesite/ph/15490321151412058579/js/dit_scripts.js"></script>
+
+
+
+  
+ 
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/15490321151412058579/js/ph_core.js"></script>
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/15490321151412058579/js/ph_dwiki.js"></script>
+ 
+ 
+ 
+ 
+</div> 
+
+<div id="footer" dir="ltr">
+ <div class="text">
+ <a href="/projecthosting/terms.html">Terms</a> -
+ <a href="http://www.google.com/privacy.html">Privacy</a> -
+ <a href="/p/support/">Project Hosting Help</a>
+ </div>
+</div>
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+
+ 
+ 
+
+
+ 
+ </body>
+</html>
+
+

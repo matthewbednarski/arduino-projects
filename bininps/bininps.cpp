@@ -49,12 +49,11 @@
  * configuration parameters:
  * bininps.xml (Binary/Counter input module)
  */
-
+#include <Arduino.h> 
+#include "regtable.h"
+#include "panstamp.h"
 #include <EEPROM.h>
 #include "product.h"
-#include "panstamp.h"
-#include "regtable.h"
-
 
 /**
  * Interrupt masks
@@ -74,78 +73,33 @@
  */
 #define LEDPIN               4
 
-
-void setup(void);
-void loop(void);
-
-
-byte updateValues(void);
-const void updtVoltSupply(byte rId);
-const void updtBinInputs(byte rId);
-const void updtCounters(byte rId);
 /**
- * Declaration of common callback functions
+ * Pin Change Interrupt flag
  */
-DECLARE_COMMON_CALLBACKS()
-
-	/**
-	 * Definition of common registers
-	 */
-DEFINE_COMMON_REGISTERS()
-
-	/*
-	 * Definition of custom registers
-	 */
-	// Voltage supply
-	static byte dtVoltSupply[2];
-	REGISTER regVoltSupply(dtVoltSupply, sizeof(dtVoltSupply), &updtVoltSupply, NULL);
-	// Binary input register
-	byte dtBinInputs[2];    // Binary input states
-	REGISTER regBinInputs(dtBinInputs, sizeof(dtBinInputs), &updtBinInputs, NULL);
-	// 4-byte counter registers (4 regs)
-	byte dtCounters[16];    // Pulse counters
-	REGISTER regCounters(dtCounters, sizeof(dtCounters), &updtCounters, NULL);
-
-	/**
-	 * Initialize table of registers
-	 */
-DECLARE_REGISTERS_START()
-	&regVoltSupply,
-	&regBinInputs,
-	&regCounters
-DECLARE_REGISTERS_END()
+volatile boolean pcIRQ = false;
 
 /**
-* Definition of common getter/setter callback functions
-*/
-DEFINE_COMMON_CALLBACKS()
-	/**
-	 * Pin Change Interrupt flag
-	 */
-	volatile boolean pcIRQ = false;
-
-	/**
-	 * Binary states
-	 */
-	byte stateLowByte = 0, stateHighByte = 0;
-
-	/**
-	 * Pure Binary inputs
-	 */
-	uint8_t binaryPin[] = {0, 1, 0, 1, 2, 3, 4, 5};                                              // Binary pins (Atmega port bits)
-	volatile uint8_t *binaryPort[] = {&PINB, &PINB, &PINC, &PINC, &PINC, &PINC, &PINC, &PINC};   // Binary ports (Atmega port)
-	int lastStateBinary[] = {-1, -1, -1, -1, -1, -1, -1, -1};                                    // Initial pin states
-
-	/**
- 	* Counters
- 	*/
-	uint8_t counterPin[] = {3, 5, 6, 7};                                // Counter pins (Atmega port bits)
-	volatile uint8_t *counterPort[] = {&PIND, &PIND, &PIND, &PIND};     // Counter ports (Atmega port)
-	unsigned long counter[] = {0, 0, 0, 0};                             // Initial counter values
-	int lastStateCount[] = {-1, -1, -1, -1};                            // Initial pin states
+ * Binary states
+ */
+byte stateLowByte = 0, stateHighByte = 0;
 
 /**
-* Pin Change Interrupt vectors
+ * Pure Binary inputs
+ */
+uint8_t binaryPin[] = {0, 1, 0, 1, 2, 3, 4, 5};                                              // Binary pins (Atmega port bits)
+volatile uint8_t *binaryPort[] = {&PINB, &PINB, &PINC, &PINC, &PINC, &PINC, &PINC, &PINC};   // Binary ports (Atmega port)
+int lastStateBinary[] = {-1, -1, -1, -1, -1, -1, -1, -1};                                    // Initial pin states
+
+/**
+ * Counters
+ */
+uint8_t counterPin[] = {3, 5, 6, 7};                                // Counter pins (Atmega port bits)
+volatile uint8_t *counterPort[] = {&PIND, &PIND, &PIND, &PIND};     // Counter ports (Atmega port)
+unsigned long counter[] = {0, 0, 0, 0};                             // Initial counter values
+int lastStateCount[] = {-1, -1, -1, -1};                            // Initial pin states
+
+/**
+ * Pin Change Interrupt vectors
  */
 SIGNAL(PCINT0_vect)
 {
@@ -162,6 +116,13 @@ SIGNAL(PCINT2_vect)
 	panstamp.wakeUp();
 	pcIRQ = true;
 }
+
+byte updateValues(void);
+void setup();
+void loop();
+const void updtVoltSupply(byte rId);
+const void updtBinInputs(byte rId);
+const void updtCounters(byte rId);
 
 /**
  * updateValues
@@ -223,9 +184,13 @@ void setup()
 	int i;
 
 	Serial.begin(38400);
-	Serial.println("bininps example...");
+	Serial.println("Starting at baud 38400");
+
 	pinMode(LEDPIN, OUTPUT);
 	digitalWrite(LEDPIN, LOW);
+	pinMode(7, INPUT);
+	
+	
 
 	// Set pins as inputs
 	DDRB &= ~PCINTMASK0;
@@ -239,8 +204,6 @@ void setup()
 
 	// Init panStamp
 	panstamp.init();
-
-	panstamp.cc1101.setCarrierFreq(CFREQ_433);
 
 	// Transmit product code
 	getRegister(REGI_PRODUCTCODE)->getData();
@@ -314,9 +277,7 @@ void loop()
 	pcEnableInterrupt();
 }
 
-// 
-// regtable.ino 
-// 
+
 /**
  * regtable
  *
@@ -343,17 +304,55 @@ void loop()
  * Creation date: 01/19/2012
  */
 
-/**
- * Definition of custom getter/setter callback functions
- */
 
 /**
- * updtVoltSupply
- *
- * Measure voltage supply and update register
- *
- * 'rId'  Register ID
+ * Declaration of common callback functions
  */
+DECLARE_COMMON_CALLBACKS()
+
+	/**
+	 * Definition of common registers
+	 */
+DEFINE_COMMON_REGISTERS()
+
+	/*
+	 * Definition of custom registers
+	 */
+	// Voltage supply
+	static byte dtVoltSupply[2];
+	REGISTER regVoltSupply(dtVoltSupply, sizeof(dtVoltSupply), &updtVoltSupply, NULL);
+	// Binary input register
+	byte dtBinInputs[2];    // Binary input states
+	REGISTER regBinInputs(dtBinInputs, sizeof(dtBinInputs), &updtBinInputs, NULL);
+	// 4-byte counter registers (4 regs)
+	byte dtCounters[16];    // Pulse counters
+	REGISTER regCounters(dtCounters, sizeof(dtCounters), &updtCounters, NULL);
+
+	/**
+	 * Initialize table of registers
+	 */
+DECLARE_REGISTERS_START()
+	&regVoltSupply,
+	&regBinInputs,
+	&regCounters
+DECLARE_REGISTERS_END()
+
+	/**
+	 * Definition of common getter/setter callback functions
+	 */
+DEFINE_COMMON_CALLBACKS()
+
+	/**
+	 * Definition of custom getter/setter callback functions
+	 */
+
+	/**
+	 * updtVoltSupply
+	 *
+	 * Measure voltage supply and update register
+	 *
+	 * 'rId'  Register ID
+	 */
 const void updtVoltSupply(byte rId)
 {
 	unsigned short result;

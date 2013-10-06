@@ -21,16 +21,18 @@
  * USA
  * 
  * Author: Daniel Berenguer
- * Creation date: 04/29/2013
+ * Creation date: 03/31/2011
  */
 
 #ifndef _PRODUCT_H
 #define _PRODUCT_H
 
+#include "sensor.h"
+
 /**
  * Hardware version
  */
-#define HARDWARE_VERSION        0x00000100
+#define HARDWARE_VERSION        0x00000200
 
 /**
  * Firmware version
@@ -40,12 +42,18 @@
 /**
  * Manufacturer SWAP ID
  */
-#define SWAP_MANUFACT_ID        0x0000000F
+#define SWAP_MANUFACT_ID        0x00000001
 
 /**
  * Product SWAP ID
  */
-#define SWAP_PRODUCT_ID         0x0000000E
+#ifdef TEMPHUM
+#define SWAP_PRODUCT_ID         0x00000001
+#elif TEMP
+#define SWAP_PRODUCT_ID         0x00000004
+#elif TEMPPRESS
+#define SWAP_PRODUCT_ID         0x00000005
+#endif
 
 #endif
 

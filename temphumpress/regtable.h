@@ -1,5 +1,5 @@
 /**
- * product.h
+ * regtable.h
  *
  * Copyright (c) 2011 Daniel Berenguer <dberenguer@usapiens.com>
  * 
@@ -21,31 +21,23 @@
  * USA
  * 
  * Author: Daniel Berenguer
- * Creation date: 04/29/2013
+ * Creation date: 03/31/2011
  */
 
-#ifndef _PRODUCT_H
-#define _PRODUCT_H
+#ifndef _REGTABLE_H
+#define _REGTABLE_H
 
-/**
- * Hardware version
- */
-#define HARDWARE_VERSION        0x00000100
-
-/**
- * Firmware version
- */
-#define FIRMWARE_VERSION        0x00000101
+#include "Arduino.h"
+#include "register.h"
+#include "commonregs.h"
 
 /**
- * Manufacturer SWAP ID
+ * Register indexes
  */
-#define SWAP_MANUFACT_ID        0x0000000F
-
-/**
- * Product SWAP ID
- */
-#define SWAP_PRODUCT_ID         0x0000000E
+DEFINE_REGINDEX_START()
+  REGI_VOLTSUPPLY,
+  REGI_SENSOR
+DEFINE_REGINDEX_END()
 
 #endif
 

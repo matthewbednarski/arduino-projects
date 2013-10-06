@@ -16,7 +16,6 @@
 #ifndef dht11_h
 #define dht11_h
 
-#define ARDUINO 101
 #if defined(ARDUINO) && (ARDUINO >= 100)
 #include <Arduino.h>
 #else
@@ -25,7 +24,7 @@
 
 #define DHT11LIB_VERSION "0.4.1"
 
-#define DHTLIB_OK                               0
+#define DHTLIB_OK                0
 #define DHTLIB_ERROR_CHECKSUM   -1
 #define DHTLIB_ERROR_TIMEOUT    -2
 
