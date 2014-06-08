@@ -172,6 +172,7 @@ nano:	AVR_PART_NO	= ATMEGA328P
 nano:	AVRDUDE_PROGRAMMER= arduino
 nano:	MCU		= atmega328p
 nano:	elf hex upload
+.nano: nano
 
 uno:	PORT	= /dev/ttyACM0
 uno:	F_CPU	= 16000000L
