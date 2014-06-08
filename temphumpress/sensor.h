@@ -35,7 +35,7 @@
 //#define TEMPPRESS  1     // Temperature + Pressure sensor = BMP085
 
 #ifdef TEMPHUM
-//#define DHT11  1           // Temperature + Humidity sensor = DHT11
+#define DHT11  1           // Temperature + Humidity sensor = DHT11
 #ifndef DHT11
 #define DHT22  1           // Temperature + Humidity sensor = DHT22
 #endif
@@ -61,7 +61,7 @@
 #define PORTR_DHT_DATA    PINC
 #define PORTD_DHT_DATA    DDRC
 #define BIT_DHT_DATA      2
-#define PIN_DHT_DATA      16
+#define PIN_DHT_DATA      19
 
 #define setDataPin()      bitSet(PORTW_DHT_DATA, BIT_DHT_DATA)
 #define clearDataPin()    bitClear(PORTW_DHT_DATA, BIT_DHT_DATA)
@@ -69,7 +69,7 @@
 #define setDataInput()    bitClear(PORTD_DHT_DATA, BIT_DHT_DATA)
 #define setDataOutput()   bitSet(PORTD_DHT_DATA, BIT_DHT_DATA)
 
-#define PIN_PWRDHT        15
+#define PIN_PWRDHT        18
 #define dhtSensorON()     digitalWrite(PIN_PWRDHT, HIGH);
 #define dhtSensorOFF()    digitalWrite(PIN_PWRDHT, LOW);
 

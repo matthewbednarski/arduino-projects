@@ -12,19 +12,21 @@
 //#define VOLT_SUPPLY_A7
 
 /**
- * LED pin
- */
+* LED pin
+*/
 #define LEDPIN           4
 #define SERIAL_BAUD	38400
+
 /**
- * Sensor pins
- */
+* Sensor pins
+*/
 #define SENSOR_0_PIN  3     // Analog pin 3 = Digital pin 17- sensor 0
 #define POWER_0_PIN   16     // Digital pin 16 = Analog pin 2
 #define SENSOR_1_PIN  19     // Analog pin 5 = Digital pin 19- sensor 0
 #define POWER_1_PIN   18     // Digital pin 18 = Analog pin 4
 
 #define BUTTON_PIN     8    // Digital pin used to powwer sensor 1
+
 
 void setup();
 void loop();
@@ -35,18 +37,48 @@ const void updateTempHumSensor(byte rId);
 int sensorReadTempHum(unsigned int dht_11_data_pin, unsigned int dht_11_power_pin);
 
 
+
+t_sensor sens1, sens2;
+
+void setupSensors(t_sensor sensor, int powerPin, int* sensorPins);
+void setupSensor(t_sensor sensor, int powerPin, int sensorPin);
+
+void setupSensors(t_sensor sensor, int powerPin, int* sensorPins){ 
+  sensor.power = powerPin;
+#ifdef TRACE
+  Serial.println(sensor.power);
+#endif
+  sensor.sensors = sensorPins;
+  int length = sizeof(sensor.sensors)/sizeof(int);
+#ifdef TRACE
+  for(int i = 0; i < length; i++){
+    Serial.print("sensor pin: ");
+    Serial.println(sensor.sensors[i]);
+  }
+#endif
+}
+void setupSensor(t_sensor sensor, int powerPin, int sensorPin){
+  int ss[] = {sensorPin};
+  setupSensors(sensor, powerPin, ss);
+}
+
 /**
  * setup
  *
  * Arduino setup function
  */
+byte tx_interval[2];
 void setup()
 {
+  tx_interval[0] = 0x00;
+  tx_interval[1] = 0x07;
 	int i;
+
 	Serial.begin(SERIAL_BAUD);
 	Serial.print("Starting up at serial baud: ");
 	Serial.println(SERIAL_BAUD, DEC);
 
+  setupSensor(sens1, 16, 3 ); 
 
 	// Initialize power pins LIGHT sensor
 	initPin(POWER_0_PIN, OUTPUT, LOW);
@@ -65,6 +97,10 @@ void setup()
 	panstamp.init();
 
 	panstamp.cc1101.setCarrierFreq(CFREQ_433);
+
+  panstamp.setTxInterval(tx_interval, 1);
+  //getRegister(REGI_TXINTERVAL)->setData(tx_interval);
+
 	// Transmit product code
 	getRegister(REGI_PRODUCTCODE)->getData();
 	getRegister(REGI_PRODUCTCODE)->getData();
@@ -80,7 +116,7 @@ void setup()
 		digitalWrite(LEDPIN, HIGH);
 		delay(100);
 		digitalWrite(LEDPIN, LOW);
-		delay(100);
+		delay(400);
 	}
 
 	// Transmit periodic Tx interval
@@ -93,7 +129,7 @@ void setup()
 
 
 	Serial.print("Product Code: ");
-	Serial.println(*getRegister(REGI_PRODUCTCODE)->value, DEC);
+	Serial.println(getRegister(REGI_PRODUCTCODE)->value[8], DEC);
 	
 	Serial.println("Registers: ");
 	Serial.print("Volt supply: ");
@@ -114,35 +150,7 @@ void setup()
  */
 void loop()
 {
-	int val = digitalRead(BUTTON_PIN);
-	if(val < 1){
-		digitalWrite(LEDPIN, HIGH);
-#ifdef TRACE
-		Serial.print("Button ");
-		Serial.print(BUTTON_PIN, DEC);
-		Serial.println(" pressed.");
-#endif
-		// Transmit sensor data
-		getRegister(REGI_SENSOR_LIGHT)->getData();
-		// Transmit sensor data
-		getRegister(REGI_SENSOR_TEMP_HUM)->getData();
-		// Transmit power voltage
-		getRegister(REGI_VOLTSUPPLY)->getData();
-
-/*#ifdef TRACE
-		Serial.print("Sensor value: ");
-		Serial.println(*getRegister(REGI_SENSOR_LIGHT)->value, DEC);
-
-		Serial.print("Sensor value: ");
-		Serial.println(*getRegister(REGI_SENSOR_TEMP_HUM)->value, DEC);
-
-		Serial.print("Volt supply: ");
-		Serial.println(*getRegister(REGI_VOLTSUPPLY)->value, DEC);
-#endif*/
-		// Sleep
-		panstamp.goToSleep();
-		digitalWrite(LEDPIN, LOW);
-	}
+/}
 
 }
 /**
@@ -163,7 +171,7 @@ DEFINE_COMMON_REGISTERS()
 	static byte dtVoltSupply[2];
 	REGISTER regVoltSupply(dtVoltSupply, sizeof(dtVoltSupply), &updateVoltSupply, NULL);
 	// Sensor value register (dual sensor)
-	static byte dtSensor[2];
+	static byte dtSensor[3];
 	REGISTER regSensorLight(dtSensor, sizeof(dtSensor), &updateLightSensor, NULL);
 
 	// Sensor value register (dual sensor)

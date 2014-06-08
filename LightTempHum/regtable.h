@@ -15,5 +15,11 @@ DEFINE_REGINDEX_START()
   REGI_SENSOR_TEMP_HUM
 DEFINE_REGINDEX_END()
 
+
+struct t_sensor {
+  int* sensors;
+  int power;
+};
+
 #endif
 

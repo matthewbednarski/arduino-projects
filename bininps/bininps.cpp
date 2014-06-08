@@ -179,18 +179,15 @@ byte updateValues(void)
  *
  * Arduino setup function
  */
+byte tx_interval[2];
 void setup()
 {
+  tx_interval[0] = 0x00;
+  tx_interval[1] = 0x07;
 	int i;
-
-	Serial.begin(38400);
-	Serial.println("Starting at baud 38400");
 
 	pinMode(LEDPIN, OUTPUT);
 	digitalWrite(LEDPIN, LOW);
-	pinMode(7, INPUT);
-	
-	
 
 	// Set pins as inputs
 	DDRB &= ~PCINTMASK0;
@@ -205,6 +202,9 @@ void setup()
 	// Init panStamp
 	panstamp.init();
 
+  panstamp.cc1101.setCarrierFreq(CFREQ_433);
+  //panstamp.cc1101.setCarrierFreq(CFREQ_868);
+  panstamp.setTxInterval(tx_interval, 1);
 	// Transmit product code
 	getRegister(REGI_PRODUCTCODE)->getData();
 

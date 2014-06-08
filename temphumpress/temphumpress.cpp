@@ -98,6 +98,7 @@ void initSensor(void);
 void setup()
 {
 	int i;
+  Serial.println("Starting up");
 
 	pinMode(LEDPIN, OUTPUT);
 	digitalWrite(LEDPIN, LOW);
@@ -107,6 +108,7 @@ void setup()
 
 	// Init panStamp
 	panstamp.init();
+	panstamp.cc1101.setCarrierFreq(CFREQ_433);
 
 	// Transmit product code
 	getRegister(REGI_PRODUCTCODE)->getData();

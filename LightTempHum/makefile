@@ -51,7 +51,7 @@ ARDUINO_OBJS		= $(foreach src, $(ARDUINO_SRCS), $(addsuffix .o, $(ARDUINO_OBJ_DI
 ARDUINO_OBJS		+= $(foreach src, $(ARDUINO_AVR_SRCS), $(addsuffix .o, $(ARDUINO_OBJ_DIR)/avr-libc/$(notdir $(src))))
 LIB_OBJS		= $(foreach src, $(LIB_SRCS), $(addsuffix .o, $(LIB_OBJ_DIR)/$(notdir $(src))))
 LIB_OBJS_TMP		= $(addsuffix .o, $(LIB_SRCS))
-OBJS			= $(addsuffix .o, $(OBJ_DIR)/$(notdir $(SRCS)))
+OBJS			= $(foreach src, $(SRCS), $(addsuffix .o, $(OBJ_DIR)/$(notdir $(src))))
 
 
 #-include $(OBJS:.o=.d)
@@ -298,6 +298,18 @@ $(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
 	@echo OBJ FILES FROM C
 	@mkdir -p $(OBJ_DIR)
 	$(CC) -c $(ALL_CFLAGS) $(SRC_DIR)/$*.c -o $@
+
+%.cpp.o: %.cpp
+	@echo $(OBJS) $* FILES FROM Cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) -c $(ALL_CXXFLAGS) $*.cpp -o $@
+	
+
+# Compile: create object files from C source files.
+%.c.o: %.c
+	@echo OBJ FILES FROM C
+	@mkdir -p $(OBJ_DIR)
+	$(CC) -c $(ALL_CFLAGS) $*.c -o $@
 
 # Compile: create object files from C++ source files.
 ##%.cpp.o: %.cpp

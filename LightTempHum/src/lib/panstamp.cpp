@@ -422,7 +422,7 @@ void PANSTAMP::wakeUp(bool rxOn)
 void PANSTAMP::goToSleep(void)
 {
   // Get the amount of seconds to sleep from the internal register
-  int intInterval = (txInterval[0] * 0x100) + txInterval[1];
+  int intInterval = txInterval[0] * 0x100 + txInterval[1];
   int i, loops;
   byte minTime;
   

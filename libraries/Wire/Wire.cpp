@@ -18,7 +18,6 @@
  
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
 */
-
 extern "C" {
   #include <stdlib.h>
   #include <string.h>
