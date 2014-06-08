@@ -1,36 +1,4 @@
 
-# Targets Specific Variables
-nano:	PORT	= /dev/ttyUSB0
-nano:	F_CPU	= 16000000L
-nano:	UPLOAD_RATE	= 57600
-nano:	PINS_VARIANT	= eightanaloginputs
-nano:	AVR_PART_NO	= ATMEGA328P
-nano:	AVRDUDE_PROGRAMMER= arduino
-nano:	MCU		= atmega328p
-nano:	elf hex upload
-.nano: nano
-
-uno:	PORT	= /dev/ttyACM0
-uno:	F_CPU	= 16000000L
-uno:	UPLOAD_RATE	= 115200
-uno:	PINS_VARIANT	= standard
-uno:	AVR_PART_NO	= ATMEGA328P
-uno:	AVRDUDE_PROGRAMMER= arduino
-uno:	MCU		= atmega328p
-uno:	elf hex upload
-.uno:	uno
-
-panstamp:	F_CPU	= 8000000L
-panstamp:	PORT	= /dev/ttyUSB0
-#panstamp:	PORT	= /dev/ttyUSB1
-panstamp:	UPLOAD_RATE	= 57600
-panstamp:	PINS_VARIANT	= standard
-panstamp:	AVR_PART_NO	= ATMEGA328P
-panstamp:	AVRDUDE_PROGRAMMER= arduino
-panstamp:	MCU		= atmega328p
-panstamp:	elf hex upload
-.panstamp:	panstamp
-
 TARGET			:= $(notdir $(CURDIR))
 INSTALL_DIR		:= /usr/lib/arduino
 AVR_SRCS_ROOT		:= /usr/avr/include/arduino
@@ -195,6 +163,35 @@ else
 LD_LIBS		:=-ltouse -lcore -lm
 endif
 
+# Targets Specific Variables
+nano:	PORT	= /dev/ttyUSB0
+nano:	F_CPU	= 16000000L
+nano:	UPLOAD_RATE	= 57600
+nano:	PINS_VARIANT	= eightanaloginputs
+nano:	AVR_PART_NO	= ATMEGA328P
+nano:	AVRDUDE_PROGRAMMER= arduino
+nano:	MCU		= atmega328p
+nano:	elf hex upload
+
+uno:	PORT	= /dev/ttyACM0
+uno:	F_CPU	= 16000000L
+uno:	UPLOAD_RATE	= 115200
+uno:	PINS_VARIANT	= standard
+uno:	AVR_PART_NO	= ATMEGA328P
+uno:	AVRDUDE_PROGRAMMER= arduino
+uno:	MCU		= atmega328p
+uno:	elf hex upload
+.uno:	uno
+
+panstamp:	PORT	= /dev/ttyUSB0
+panstamp:	F_CPU	= 8000000L
+panstamp:	UPLOAD_RATE	= 57600
+panstamp:	PINS_VARIANT	= standard
+panstamp:	AVR_PART_NO	= ATMEGA328P
+panstamp:	AVRDUDE_PROGRAMMER= arduino
+panstamp:	MCU		= atmega328p
+panstamp:	elf hex upload
+.panstamp:	panstamp
 	
 all: build
 build: .$(CFG)
@@ -320,10 +317,8 @@ $(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
 # Target: clean project.
 clean:
 	@rm -f *.o *.d *.a *.so
-	@rm -Rf bin.*/
-	@rm -Rf bin/
-	@rm -Rf obj.*/
-	@rm -Rf obj/
+	@rm -Rf bin*
+	@rm -Rf obj*
 	@rm -Rf src/
 
 depend:
