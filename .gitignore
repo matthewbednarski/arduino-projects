@@ -17,6 +17,7 @@
 tags
 
 # Dirs to ignore
+src/
 Arduino_spi/
 AutoLight/
 HoneyComm/
