@@ -1,6 +1,19 @@
+TARGET			:= $(notdir $(CURDIR))
+INSTALL_DIR		:= /home/matthew/arduino/arduino
+AVR_SRCS_ROOT		:= /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
+#AVR_SRCS_ROOT		:= /usr/lib/avr/include/arduino
+ARDUINO			= $(INSTALL_DIR)
+ARDUINO_LIB 		=  /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
+AVR_TOOLS_PATH		= /usr/bin
+AVRDUDE_PATH		= /usr/bin
+# Place -I options here
+CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/matthew/arduino/arduino/libraries 
+CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/matthew/arduino/arduino/libraries 
 
+ARDUINO_VERS		:=105
+#
 # Targets Specific Variables
-nano:	PORT	= /dev/ttyUSB0
+#nano:	PORT	= /dev/ttyUSB1
 nano:	F_CPU	= 16000000L
 nano:	UPLOAD_RATE	= 57600
 nano:	PINS_VARIANT	= eightanaloginputs
@@ -10,7 +23,7 @@ nano:	MCU		= atmega328p
 nano:	elf hex upload
 .nano: nano
 
-uno:	PORT	= /dev/ttyACM0
+#uno:	PORT	= /dev/ttyACM0
 uno:	F_CPU	= 16000000L
 uno:	UPLOAD_RATE	= 115200
 uno:	PINS_VARIANT	= standard
@@ -21,7 +34,7 @@ uno:	elf hex upload
 .uno:	uno
 
 panstamp:	F_CPU	= 8000000L
-panstamp:	PORT	= /dev/ttyUSB0
+#panstamp:	PORT	= /dev/ttyUSB1
 #panstamp:	PORT	= /dev/ttyUSB1
 panstamp:	UPLOAD_RATE	= 57600
 panstamp:	PINS_VARIANT	= standard
@@ -31,11 +44,6 @@ panstamp:	MCU		= atmega328p
 panstamp:	elf hex upload
 .panstamp:	panstamp
 
-TARGET			:= $(notdir $(CURDIR))
-INSTALL_DIR		:= /usr/lib/arduino
-AVR_SRCS_ROOT		:= /usr/avr/include/arduino
-
-ARDUINO_VERS		:=105
 
 #ARDUINO_OBJ_DIR		:= obj/core
 #LIB_OBJ_DIR		:= obj/lib
@@ -100,10 +108,6 @@ ifndef ARDUINO_LIBS
 endif
 ########################################################################
 
-ARDUINO			= $(INSTALL_DIR)
-ARDUINO_LIB 		= /usr/avr/include/arduino
-AVR_TOOLS_PATH		= /usr/bin
-AVRDUDE_PATH		= /usr/bin
 
 FORMAT			= ihex
 
@@ -117,9 +121,6 @@ MAKEFILE = Makefile
 # AVR (extended) COFF requires stabs, plus an avr-objcopy run.
 DEBUG = stabs
 
-# Place -I options here
-CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/usr/lib/arduino/libraries 
-CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/usr/lib/arduino/libraries 
 
 CINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
 CXXINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
@@ -198,6 +199,7 @@ endif
 	
 all: build
 build: .$(CFG)
+	@echo $(CFG)
 
 # Program the device.
 upload: $(BIN_DIR)/$(TARGET).hex
