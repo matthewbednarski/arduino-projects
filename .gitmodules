@@ -1,3 +1,6 @@
 [submodule "libraries/IRremote"]
 	path = libraries/IRremote
 	url = ssh://git@github.com/shirriff/Arduino-IRremote
+[submodule "sketches/HoneyCommLite"]
+	path = sketches/HoneyCommLite
+	url = ssh://git@github.com/jb137/HoneyCommLite
