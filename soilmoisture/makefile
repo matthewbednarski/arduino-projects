@@ -67,13 +67,12 @@ LOCAL_ARD_SRCS		+= $(wildcard *.ino)
 LOCAL_ARD_SRCS		+= $(wildcard *.pde)
 LOCAL_CPP_SRCS		+= $(wildcard *.cpp)
 LOCAL_C_SRCS		+= $(wildcard *.c)
+LOCAL_H_SRCS		+= $(wildcard *.h)
 
 ARDUINO_SRCS		= $(ARDUINO_CPP_SRCS) $(ARDUINO_C_SRCS)
 ARDUINO_AVR_SRCS	= $(ARDUINO_AVR_CPP_SRCS) $(ARDUINO_AVR_C_SRCS)
 LIB_SRCS		= $(LIB_CPP_SRCS) $(LIB_C_SRCS)
-SRCS			= $(LOCAL_C_SRCS) $(LOCAL_CPP_SRCS) $(LOCAL_ARD_SRCS)
-
-
+SRCS			= $(LOCAL_C_SRCS) $(LOCAL_CPP_SRCS) $(LOCAL_ARD_SRCS) 
 
 LIB_SRC_DIR		= src/lib
 
@@ -97,6 +96,8 @@ ifndef ARDUINO_LIBS
     #ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_DIR)/libraries/*)), $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_SRCS)))
     ARDUINO_LIBS += $(filter $(notdir $(wildcard ../libraries/*)), \
         $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(SRCS)))
+    ARDUINO_LIBS += $(filter $(notdir $(wildcard ../libraries/*)), \
+        $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_H_SRCS)))
 endif
 ########################################################################
 

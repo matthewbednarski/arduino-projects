@@ -26,6 +26,7 @@ void prepareSensor()
 long readSensor()
 {
    long r;
+   digitalWrite(LEDPIN, HIGH);
    digitalWrite(RNG_PWR, HIGH);
    delay(20);
    digitalWrite(RNG_TRG, HIGH);
@@ -34,6 +35,7 @@ long readSensor()
    r = pulseIn(RNG_ECH, HIGH);
 
    
+   digitalWrite(LEDPIN, LOW);
    return r * 10;
 }
 long microToInch(long micro)
@@ -52,7 +54,7 @@ void setup()
   uint8_t i;
 	Serial.begin(38400);
 	// Init panStamp
-
+  pinMode(LEDPIN, OUTPUT);
 
 	//panstamp.cc1101.setCarrierFreq(CFREQ_433);
 	Serial.println("rangetest starting up...");
