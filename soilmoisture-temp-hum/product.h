@@ -35,17 +35,17 @@
 /**
  * Firmware version
  */
-#define FIRMWARE_VERSION        0x00000101
+#define FIRMWARE_VERSION        0x00000100
 
 /**
  * Manufacturer SWAP ID
  */
-#define SWAP_MANUFACT_ID        0x0000002D
+#define SWAP_MANUFACT_ID        0x00000001
 
 /**
  * Product SWAP ID
  */
-#define SWAP_PRODUCT_ID         0x00000001
+#define SWAP_PRODUCT_ID         0x0000000E
 
 #endif
 

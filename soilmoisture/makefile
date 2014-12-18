@@ -1,39 +1,8 @@
 
-# Targets Specific Variables
-nano:	PORT	= /dev/ttyUSB0
-nano:	F_CPU	= 16000000L
-nano:	UPLOAD_RATE	= 57600
-nano:	PINS_VARIANT	= eightanaloginputs
-nano:	AVR_PART_NO	= ATMEGA328P
-nano:	AVRDUDE_PROGRAMMER= arduino
-nano:	MCU		= atmega328p
-nano:	elf hex upload
-.nano: nano
-
-uno:	PORT	= /dev/ttyACM0
-uno:	F_CPU	= 16000000L
-uno:	UPLOAD_RATE	= 115200
-uno:	PINS_VARIANT	= standard
-uno:	AVR_PART_NO	= ATMEGA328P
-uno:	AVRDUDE_PROGRAMMER= arduino
-uno:	MCU		= atmega328p
-uno:	elf hex upload
-.uno:	uno
-
-panstamp:	F_CPU	= 8000000L
-panstamp:	PORT	= /dev/ttyUSB0
-#panstamp:	PORT	= /dev/ttyUSB1
-panstamp:	UPLOAD_RATE	= 57600
-panstamp:	PINS_VARIANT	= standard
-panstamp:	AVR_PART_NO	= ATMEGA328P
-panstamp:	AVRDUDE_PROGRAMMER= arduino
-panstamp:	MCU		= atmega328p
-panstamp:	elf hex upload
-.panstamp:	panstamp
-
 TARGET			:= $(notdir $(CURDIR))
-INSTALL_DIR		:= /usr/lib/arduino
-AVR_SRCS_ROOT		:= /usr/avr/include/arduino
+INSTALL_DIR		:= /home/matthew/arduino/arduino
+AVR_SRCS_ROOT		:= /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
+#AVR_SRCS_ROOT		:= /usr/lib/avr/include/arduino
 
 ARDUINO_VERS		:=105
 
@@ -82,7 +51,7 @@ ARDUINO_OBJS		= $(foreach src, $(ARDUINO_SRCS), $(addsuffix .o, $(ARDUINO_OBJ_DI
 ARDUINO_OBJS		+= $(foreach src, $(ARDUINO_AVR_SRCS), $(addsuffix .o, $(ARDUINO_OBJ_DIR)/avr-libc/$(notdir $(src))))
 LIB_OBJS		= $(foreach src, $(LIB_SRCS), $(addsuffix .o, $(LIB_OBJ_DIR)/$(notdir $(src))))
 LIB_OBJS_TMP		= $(addsuffix .o, $(LIB_SRCS))
-OBJS			= $(addsuffix .o, $(OBJ_DIR)/$(notdir $(SRCS)))
+OBJS			= $(foreach src, $(SRCS), $(addsuffix .o, $(OBJ_DIR)/$(notdir $(src))))
 
 
 #-include $(OBJS:.o=.d)
@@ -102,7 +71,7 @@ endif
 ########################################################################
 
 ARDUINO			= $(INSTALL_DIR)
-ARDUINO_LIB 		= /usr/avr/include/arduino
+ARDUINO_LIB 		=  /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
 AVR_TOOLS_PATH		= /usr/bin
 AVRDUDE_PATH		= /usr/bin
 
@@ -119,8 +88,8 @@ MAKEFILE = Makefile
 DEBUG = stabs
 
 # Place -I options here
-CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/usr/lib/arduino/libraries 
-CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/usr/lib/arduino/libraries 
+CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/matthew/arduino/arduino/libraries 
+CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/matthew/arduino/arduino/libraries 
 
 CINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
 CXXINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
@@ -196,6 +165,37 @@ else
 LD_LIBS		:=-ltouse -lcore -lm
 endif
 
+# Targets Specific Variables
+#nano:	PORT	= /dev/ttyUSB1
+nano:	F_CPU	= 16000000L
+nano:	UPLOAD_RATE	= 57600
+nano:	PINS_VARIANT	= eightanaloginputs
+nano:	AVR_PART_NO	= ATMEGA328P
+nano:	AVRDUDE_PROGRAMMER= arduino
+nano:	MCU		= atmega328p
+nano:	elf hex upload
+.nano: nano
+
+#uno:	PORT	= /dev/ttyACM0
+uno:	F_CPU	= 16000000L
+uno:	UPLOAD_RATE	= 115200
+uno:	PINS_VARIANT	= standard
+uno:	AVR_PART_NO	= ATMEGA328P
+uno:	AVRDUDE_PROGRAMMER= arduino
+uno:	MCU		= atmega328p
+uno:	elf hex upload
+.uno:	uno
+
+#panstamp:	PORT	= /dev/ttyUSB0
+#panstamp:	PORT	= /dev/ttyUSB1
+panstamp:	F_CPU	= 8000000L
+panstamp:	UPLOAD_RATE	= 57600
+panstamp:	PINS_VARIANT	= standard
+panstamp:	AVR_PART_NO	= ATMEGA328P
+panstamp:	AVRDUDE_PROGRAMMER= arduino
+panstamp:	MCU		= atmega328p
+panstamp:	elf hex upload
+.panstamp:	panstamp
 	
 all: build
 build: .$(CFG)
@@ -302,6 +302,18 @@ $(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
 	@echo OBJ FILES FROM C
 	@mkdir -p $(OBJ_DIR)
 	$(CC) -c $(ALL_CFLAGS) $(SRC_DIR)/$*.c -o $@
+
+%.cpp.o: %.cpp
+	@echo $(OBJS) $* FILES FROM Cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) -c $(ALL_CXXFLAGS) $*.cpp -o $@
+	
+
+# Compile: create object files from C source files.
+%.c.o: %.c
+	@echo OBJ FILES FROM C
+	@mkdir -p $(OBJ_DIR)
+	$(CC) -c $(ALL_CFLAGS) $*.c -o $@
 
 # Compile: create object files from C++ source files.
 ##%.cpp.o: %.cpp

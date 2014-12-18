@@ -89,27 +89,23 @@ void setupRelayPin(uint8_t sPin){
 #define SENSOR_RELAY_MODE   OUTPUT
 #define SENSOR_RELAY_PWR  A2
 
-static uint8_t relays[] = { A3, A2  };
-static uint8_t relays_states[] = { 0, 0 };
-static uint8_t relays_count = 2;
+static uint8_t relays[] = { A3, A2, A6, A7, PD3, PD5, PD6, PD7};
+static uint8_t relays_states[] = { 0, 0, 0, 0, 0, 0 ,0, 0 };
+static uint8_t relays_count = 8;
 static uint8_t send_states = 0;
 void setupRelays(){
-
   uint8_t count = relays_count;
   for(int i = 0; i < count; i++){
     setupRelayPin(relays[i]);
     relays_states[i] = 0;
   }
-
 }
 void onRelay(uint8_t relay){
-  //ledRedGreen();
   digitalWrite(relays[relay], HIGH);
   relays_states[relay] = 1;
 }
 void offRelay(uint8_t relay){
   digitalWrite(relays[relay], LOW);  
-  //ledOff();
   relays_states[relay] = 0;
 }
 
@@ -138,10 +134,8 @@ void ledRedGreen(){
 void setup()
 {
 
-
-  Serial.begin(38400);
-  Serial.println(LEDGRN);
-  Serial.println(LEDRED);
+  //Serial.begin(38400);
+  //Serial.flush();
 
   setupOutPin(LEDGRN);
   setupOutPin(LEDRED);
@@ -154,10 +148,10 @@ void setup()
 
 
   panstamp.init();
-  //panstamp.cc1101.setCarrierFreq(CFREQ_868);
-  panstamp.cc1101.setCarrierFreq(CFREQ_433);
+  panstamp.cc1101.setCarrierFreq(CFREQ_868);
+  //panstamp.cc1101.setCarrierFreq(CFREQ_433);
 
-  Serial.println("LightTempHumRelay starting up...");
+  //Serial.println("LightTempHumRelay starting up...");
 
 
   // Transmit product code
@@ -166,43 +160,43 @@ void setup()
   // Enter SYNC state
   panstamp.enterSystemState(SYSTATE_SYNC);
 
-  Serial.println("\tListening for commands...");
+  //Serial.println("\tListening for commands...");
   // During 3 seconds, listen the network for possible commands whilst the LED blinks
   for(int i=0 ; i<6 ; i++)
   {
     ledGreen();
-    delay(100);
+    delay(1000);
     ledOff();
-    delay(100);
+    delay(1000);
     ledRed();
-    delay(100);
+    delay(1000);
     ledOff();
-    delay(300);
+    delay(3000);
   }
 
   // Switch to Rx OFF state
   panstamp.enterSystemState(SYSTATE_RXON);
 
-  Serial.print("Product Code: ");
-  Serial.println(getRegister(REGI_PRODUCTCODE)->value[8], DEC);
+  //Serial.print("Product Code: ");
+  //Serial.println(getRegister(REGI_PRODUCTCODE)->value[8], DEC);
 
-  Serial.println("Registers: ");
-  Serial.print("Volt supply: ");
-  Serial.println(REGI_O_VOLTSUPPLY, DEC);
-  Serial.print("Light Sensor: ");
-  Serial.println(REGI_O_SENSOR_LIGHT, DEC);
-  Serial.print("Temp/Hum Sensor: ");
-  Serial.println(REGI_O_SENSOR_TEMP_HUM, DEC);
-  Serial.print("Request Sensor States: ");
-  Serial.println(REGI_I_SEND_SENSOR_STATES, DEC);
-  Serial.print("Relays Register: ");
-  Serial.println(REGI_I_RELAYSELECT, DEC);
-  Serial.print("Relays On/Off Register: ");
-  Serial.println(REGI_I_RELAYSWITCH, DEC);
-  Serial.print("Relays States: ");
-  Serial.println(REGI_O_RELAYS_STATES, DEC);
-  Serial.print("Request Relays States: ");
-  Serial.println(REGI_I_SEND_RELAYS_STATES, DEC);
+  //Serial.println("Registers: ");
+  //Serial.print("Volt supply: ");
+  //Serial.println(REGI_O_VOLTSUPPLY, DEC);
+  //Serial.print("Light Sensor: ");
+  //Serial.println(REGI_O_SENSOR_LIGHT, DEC);
+  //Serial.print("Temp/Hum Sensor: ");
+  //Serial.println(REGI_O_SENSOR_TEMP_HUM, DEC);
+  //Serial.print("Request Sensor States: ");
+  //Serial.println(REGI_I_SEND_SENSOR_STATES, DEC);
+  //Serial.print("Relays Register: ");
+  //Serial.println(REGI_I_RELAYSELECT, DEC);
+  //Serial.print("Relays On/Off Register: ");
+  //Serial.println(REGI_I_RELAYSWITCH, DEC);
+  //Serial.print("Relays States: ");
+  //Serial.println(REGI_O_RELAYS_STATES, DEC);
+  //Serial.print("Request Relays States: ");
+  //Serial.println(REGI_I_SEND_RELAYS_STATES, DEC);
 
 }
 
@@ -386,8 +380,8 @@ void readTempHum(){
   dtSensorTempHum[3] = humidity & 0xFF;
 
 /*
-  Serial.print("Temp: ");
-  Serial.println( temperature );
+  //Serial.print("Temp: ");
+  //Serial.println( temperature );
   Serial.print("Temp hex: ");
   Serial.print(dtSensorTempHum[0] , HEX);
   Serial.print(dtSensorTempHum[1] , HEX);
@@ -405,11 +399,6 @@ void readTempHum(){
 const void updateTempHumSensor(byte rId)
 {
   readTempHum();
-  //dtSensorTempHum[0] = (temperature >> 8) & 0xFF;
-  //dtSensorTempHum[1] = temperature & 0xFF;
-  //dtSensorTempHum[2] = (humidity >> 8) & 0xFF;
-  //dtSensorTempHum[3] = humidity & 0xFF;
-
 }
 
 const void setSendSensorStates( byte rId, byte *state)
@@ -444,10 +433,7 @@ const void switchRelay( byte rId, byte *s)
   last = dtRelaySwitch[0];
   memcpy( dtRelaySwitch, s, sizeof(dtRelaySwitch));
   next = dtRelaySwitch[0];
-  //if(next == last){
-   //// do nothing 
-    //return;
-  //}
+
   relay = dtRelay[0];
   if(next == 1){
         onRelay(relay);
@@ -456,19 +442,13 @@ const void switchRelay( byte rId, byte *s)
   }
   delay(100);
   ledOff();
-  //return 0;
 }
 const void updateRelayStates(byte rId)
 {  
-  //static byte dtRelayStates[8];
-  //uint8_t relays[] = { A3 };
-  //uint8_t relays_states[] = { 0 };
   uint8_t relays_count = 8;
-  //dtRelayStates[0] = relays_states[0];
   for(int i = 0; i < relays_count; i++){
     dtRelayStates[i] = relays_states[i];  
   }   
-  //return 0;
 }
 const void setSendRelayStates( byte rId, byte *state)
 {
@@ -480,9 +460,7 @@ const void setSendRelayStates( byte rId, byte *state)
   req = dtSendRelayStates[0];
 
   if(req == 1){
-    // Transmit relays states
     ledRedGreen();
     send_states = 1;
   }
-  //return 0;
 }

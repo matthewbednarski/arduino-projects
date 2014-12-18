@@ -1,12 +1,51 @@
-#include "soilmoisture.h"
+/*
+ * Author: Daniel Berenguer
+ * Creation date: 04/29/2013
+ *
+ * Device:
+ * Soil Moisture sensor
+ *
+ * Description:
+ * This application measures soil moisture from any two sensor providing an
+ * analog signal
+ *
+ * These devices are low-power enabled so they will enter low-power mode
+ * just after reading the sensor values and transmitting them over the
+ * SWAP network.
+ *
+ * Associated Device Definition File, defining registers, endpoints and
+ * configuration parameters:
+ * soilmoisture.xml
+ */
+ 
+#include <Arduino.h>
+#include <EEPROM.h>
+#include "product.h"
+#include "regtable.h"
+#include "panstamp.h"
+
+/**
+ * Uncomment if you are reading Vcc from A7. All battery-boards do this
+ */
+#define VOLT_SUPPLY_A7
+
+/**
+ * LED pin
+ */
+#define LEDPIN        4
 
 /**
  * Sensor pins
  */
-uint8_t SENSOR_0_PIN =  A1;    // Analog pin - sensor 0
-uint8_t POWER_0_PIN  = A0;    // Digital pin used to powwer sensor 0
+uint8_t SENSOR_0_PIN =  A2;    // Analog pin - sensor 0
+uint8_t POWER_0_PIN  = A3;    // Digital pin used to powwer sensor 0
+//uint8_t SENSOR_1_PIN = A3;    // Analog pin - sensor 1
+//uint8_t POWER_1_PIN  = A2;  // Digital pin used to powwer sensor 1
 
-
+void setup();
+void loop();
+const void updtVoltSupply(byte rId);
+const void updtSensor(byte rId);
 /**
  * setup
  *
@@ -75,6 +114,44 @@ void loop()
 
 }
 
+/**
+ * Declaration of common callback functions
+ */
+DECLARE_COMMON_CALLBACKS()
+
+/**
+ * Definition of common registers
+ */
+DEFINE_COMMON_REGISTERS()
+
+/*
+ * Definition of custom registers
+ */
+// Voltage supply
+static unsigned long voltageSupply = 3300;
+static byte dtVoltSupply[2];
+REGISTER regVoltSupply(dtVoltSupply, sizeof(dtVoltSupply), &updtVoltSupply, NULL);
+// Sensor value register (dual sensor)
+static byte dtSensor[4];
+REGISTER regSensor(dtSensor, sizeof(dtSensor), &updtSensor, NULL);
+
+/**
+ * Initialize table of registers
+ */
+DECLARE_REGISTERS_START()
+  &regVoltSupply,
+  &regSensor
+DECLARE_REGISTERS_END()
+
+/**
+ * Definition of common getter/setter callback functions
+ */
+DEFINE_COMMON_CALLBACKS()
+
+/**
+ * Definition of custom getter/setter callback functions
+ */
+ 
 /**
  * updtVoltSupply
  *
