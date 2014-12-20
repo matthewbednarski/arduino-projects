@@ -1,15 +1,11 @@
 
 TARGET			:= $(notdir $(CURDIR))
-INSTALL_DIR		:= /home/ekr/arduino/arduino
-#AVR_SRCS_ROOT		:= /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
-AVR_SRCS_ROOT		:= /usr/lib/avr/include/arduino
+INSTALL_DIR		:= /usr/lib/arduino
+AVR_SRCS_ROOT		:= /usr/avr/include/arduino
+ARDUINO_USER_LIB := /home/ekr/arduino/arduino-projects/libraries
 
 ARDUINO_VERS		:=105
 
-#ARDUINO_OBJ_DIR		:= obj/core
-#LIB_OBJ_DIR		:= obj/lib
-#OBJ_DIR			:= obj
-#BIN_DIR			:= bin
 ARDUINO_OBJ_DIR		:= obj.$(CFG)/core
 LIB_OBJ_DIR		:= obj.$(CFG)/lib
 OBJ_DIR			:= obj.$(CFG)
@@ -19,9 +15,7 @@ BIN_DIR			:= bin.$(CFG)
 ###########################################################################
 # Below here nothing should be changed...
 
-# ARDUINO_SKETCHBOOK	= $(HOME)/sketchbook
-# AS			= $(ARDUINO_SKETCHBOOK)
-USER_LIBS_PATHS		= $(addprefix ../../libraries/, $(ARDUINO_LIBS))
+USER_LIBS_PATHS		= $(addprefix $(ARDUINO_USER_LIB)/, $(ARDUINO_LIBS))
 
 ARDUINO_CPP_SRCS	= $(wildcard $(AVR_SRCS_ROOT)/*.cpp)
 ARDUINO_AVR_CPP_SRCS	= $(foreach src, $(wildcard $(AVR_SRCS_ROOT)/avr-libc/*.cpp), $(src))
@@ -62,16 +56,16 @@ OBJS			= $(foreach src, $(SRCS), $(addsuffix .o, $(OBJ_DIR)/$(notdir $(src))))
 ifndef ARDUINO_LIBS
 	ARDUINO_LIBS += $(PERM_LIBS)
     # automatically determine included libraries
-    #ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_DIR)/libraries/*)), $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_SRCS)))
-    ARDUINO_LIBS += $(filter $(notdir $(wildcard ../../libraries/*)), \
+    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_USER_LIB)/*)), \
         $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(SRCS)))
-    ARDUINO_LIBS += $(filter $(notdir $(wildcard ../../libraries/*)), \
+    ARDUINO_LIBS += $(filter $(notdir $(wildcard $(ARDUINO_USER_LIB)/*)), \
         $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(LOCAL_H_SRCS)))
 endif
 ########################################################################
 
 ARDUINO			= $(INSTALL_DIR)
-ARDUINO_LIB 		=  /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
+ARDUINO_LIB 		= /usr/avr/include/arduino
+#ARDUINO_LIB 		=  /home/matthew/arduino/arduino/hardware/arduino/cores/arduino
 AVR_TOOLS_PATH		= /usr/bin
 AVRDUDE_PATH		= /usr/bin
 
@@ -88,10 +82,8 @@ MAKEFILE = Makefile
 DEBUG = stabs
 
 # Place -I options here
-#CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/matthew/arduino/arduino/libraries 
-#CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/matthew/arduino/arduino/libraries 
-CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/ekr/arduino/arduino-projects/libraries 
-CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I/home/ekr/arduino/arduino-projects/libraries 
+CINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I$(ARDUINO_USER_LIB)/
+CXXINCS = -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/variants/$(PINS_VARIANT) -I$(ARDUINO_USER_LIB)/
 
 CINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
 CXXINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
@@ -103,8 +95,10 @@ CXXINCS			+= $(addprefix -I,$(USER_LIBS_PATHS))
 # gnu99 - c99 plus GCC extensions
 OPT = s
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null -DARDUINO=$(ARDUINO_VERS)
-CXXDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null -DARDUINO=$(ARDUINO_VERS)
+CDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null -DARDUINO=$(ARDUINO_VERS) 
+CDEFS_DEBUG = -DDEBUG=null
+CXXDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null -DARDUINO=$(ARDUINO_VERS) 
+CXXDEFS_DEBUG = -DDEBUG=null
 
 CSTANDARD = -std=gnu99
 CDEBUG = -g$(DEBUG)
@@ -178,7 +172,7 @@ nano:	MCU		= atmega328p
 nano:	elf hex upload
 .nano: nano
 
-#uno:	PORT	= /dev/ttyACM0
+uno:	PORT	= /dev/ttyACM0
 uno:	F_CPU	= 16000000L
 uno:	UPLOAD_RATE	= 115200
 uno:	PINS_VARIANT	= standard

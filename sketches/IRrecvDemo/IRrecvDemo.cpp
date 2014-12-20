@@ -7,9 +7,15 @@ void setup()
 }
 
 void loop() {
-  if (irrecv.decode(&results)) {
-    Serial.println(results.value, HEX);
-    irrecv.resume(); // Receive the next value
+  //delay(100);
+  static unsigned long last_time;
+  unsigned long time = millis();
+  if( (time - last_time) > 500){
+    if (irrecv.decode(&results)) {
+      Serial.println(results.value, HEX);
+      irrecv.resume(); // Receive the next value
+      last_time = time;
+    }
+
   }
-  delay(100);
 }
